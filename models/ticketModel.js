@@ -5,7 +5,6 @@ const ticketSchema = new mongoose.Schema({
   name: String,
   menu: String,
   category: { type: String, enum: ['Problem', 'Suggestion', 'Others'] },
-  title: String,
   description: String,
   status: { type: String, enum: ['Open', 'In Progress', 'Resolved', 'Closed'], default: 'Open' },
   createdAt: { type: Date, default: Date.now },
