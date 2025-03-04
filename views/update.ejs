@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Update Ticket</title>
+</head>
+<body>
+    <h1>Update Ticket</h1>
+    <form action="/update/<%= ticket._id %>" method="post">
+        <label for="title">Title:</label><br>
+        <input type="text" id="title" name="title" value="<%= ticket.title %>"><br><br>
+        <label for="description">Description:</label><br>
+        <textarea id="description" name="description"><%= ticket.description %></textarea><br><br>
+        <label for="status">Status:</label><br>
+        <select id="status" name="status">
+            <option value="Open" <%= ticket.status === 'Open' ? 'selected' : '' %>>Open</option>
+            <option value="In Progress" <%= ticket.status === 'In Progress' ? 'selected' : '' %>>In Progress</option>
+            <option value="Resolved" <%= ticket.status === 'Resolved' ? 'selected' : '' %>>Resolved</option>
+            <option value="Closed" <%= ticket.status === 'Closed' ? 'selected' : '' %>>Closed</option>
+        </select><br><br>
+        <input type="submit" value="Update">
+    </form>
+</body>
+</html>

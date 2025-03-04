@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Helpdesk Tickets</title>
+</head>
+<body>
+    <h1>Helpdesk Tickets</h1>
+    <a href="/create">Create New Ticket</a>
+    <table>
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Status</th>
+                <th>Created At</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% tickets.forEach(ticket => { %>
+                <tr>
+                    <td><%= ticket.title %></td>
+                    <td><%= ticket.status %></td>
+                    <td><%= ticket.createdAt %></td>
+                    <td><a href="/update/<%= ticket._id %>">Update</a></td>
+                </tr>
+            <% }); %>
+        </tbody>
+    </table>
+</body>
+</html>
