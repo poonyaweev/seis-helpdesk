@@ -2,6 +2,9 @@ const mongoose = require('mongoose');
 
 const ticketSchema = new mongoose.Schema({
   ticketNumber: { type: String, unique: true },
+  name: String,
+  menu: String,
+  category: { type: String, enum: ['Problem', 'Suggestion', 'Others'] },
   title: String,
   description: String,
   status: { type: String, enum: ['Open', 'In Progress', 'Resolved', 'Closed'], default: 'Open' },

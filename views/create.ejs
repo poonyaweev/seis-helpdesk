@@ -4,14 +4,41 @@
   <title>Create Ticket</title>
 </head>
 <body>
-  <h1>Create a New Ticket</h1>
-  <form action="/create" method="POST" enctype="multipart/form-data">
-    <label for="title">Title:</label><br>
-    <input type="text" id="title" name="title" required><br><br>
-    <label for="description">Description:</label><br>
-    <textarea id="description" name="description" required></textarea><br><br>
-    <input type="file" name="image" accept="image/*"><br><br>
-    <button type="submit">Create Ticket</button>
-  </form>
+    <h2>Create Ticket</h2>
+
+    <form action="/create" method="post" enctype="multipart/form-data">
+      <div>
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required>
+      </div>
+
+      <div>
+        <label for="menu">Menu:</label>
+        <input type="text" id="menu" name="menu" required>
+      </div>
+    
+      <div>
+        <label for="category">Category:</label>
+        <select id="category" name="category">
+          <option value="Problem">Problem</option>
+          <option value="Suggestion">Suggestion</option>
+          <option value="Others">Others</option>
+        </select>
+      </div>
+
+      <div>
+        <label for="description">Description:</label>
+        <textarea id="description" name="description" required></textarea>
+      </div>
+    
+      <div>
+        <label for="image">Image:</label>
+        <input type="file" id="image" name="image">
+      </div>
+    
+      <button type="submit">Create Ticket</button>
+    </form>
+    
+    <a href="/">Back to Ticket List</a>
 </body>
 </html>

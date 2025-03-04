@@ -27,7 +27,9 @@ router.get('/create', (req, res) => {
 router.post('/create', upload.single('image'), async (req, res) => {
     try {
       const newTicket = new Ticket({
-        title: req.body.title,
+        name: req.body.name,
+        menu: req.body.menu,
+        category: req.body.category,
         description: req.body.description,
         image: {
           data: req.file.buffer,
@@ -62,7 +64,6 @@ router.post('/update/:id', async (req, res) => {
     const updatedTicket = await Ticket.findByIdAndUpdate(
       req.params.id,
       {
-        title: req.body.title,
         description: req.body.description,
         status: req.body.status,
         updatedAt: Date.now(),

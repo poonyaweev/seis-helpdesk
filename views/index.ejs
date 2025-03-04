@@ -10,7 +10,6 @@
         <thead>
           <tr>
             <th>Ticket Number</th>
-            <th>Title</th>
             <th>Description</th>
             <th>Status</th>
             <th>Created At</th>
@@ -23,7 +22,6 @@
           <% tickets.forEach(ticket => { %>
           <tr>
             <td><%= ticket.ticketNumber %></td>
-            <td><%= ticket.title %></td>
             <td><%= ticket.description %></td>
             <td><%= ticket.status %></td>
             <td><%= ticket.createdAt.toLocaleString() %></td>
