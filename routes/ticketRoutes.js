@@ -9,14 +9,26 @@ const upload = multer({ storage: storage });
 
 // Home Page (List Tickets - Admin view)
 router.get('/', async (req, res) => {
-  try {
-    const tickets = await Ticket.find().sort({ updatedAt: -1 });
-    res.render('index', { tickets });
-  } catch (err) {
-    console.error(err);
-    res.status(500).send('Error fetching tickets');
-  }
-});
+    try {
+      const tickets = await Ticket.find().sort({ updatedAt: -1 });
+  
+      // Get counts for each status
+      const statusCounts = await Ticket.aggregate([
+        { $group: { _id: '$status', count: { $sum: 1 } } }
+      ]);
+  
+      // Convert to an object for easier access in the template
+      const counts = {};
+      statusCounts.forEach(item => {
+        counts[item._id] = item.count;
+      });
+  
+      res.render('index', { tickets, counts }); // Pass counts to the template
+    } catch (err) {
+      console.error(err);
+      res.status(500).send('Error fetching tickets');
+    }
+  });
 
 // Create Ticket Form
 router.get('/create', (req, res) => {

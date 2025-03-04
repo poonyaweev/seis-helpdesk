@@ -5,6 +5,13 @@
 </head>
 <body>
     <h1>Helpdesk Tickets</h1>
+    <div class="status-counts">
+        Open: <%= counts.Open || 0 %>, 
+        In Progress: <%= counts['In Progress'] || 0 %>, 
+        Resolved: <%= counts.Resolved || 0 %>, 
+        Closed: <%= counts.Closed || 0 %>
+      </div>
+      
     <a href="/create">Create New Ticket</a>
     <table>
         <thead>
