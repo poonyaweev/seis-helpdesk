@@ -27,15 +27,16 @@ router.get('/create', (req, res) => {
 router.post('/create', upload.single('image'), async (req, res) => {
     try {
       const newTicket = new Ticket({
+        description: req.body.description,
         name: req.body.name,
         menu: req.body.menu,
         category: req.body.category,
-        description: req.body.description,
-        image: {
+        image: req.file ? { // Conditionally add image data if it exists
           data: req.file.buffer,
           contentType: req.file.mimetype
-        }
+        } : null 
       });
+  
       await newTicket.save();
       res.redirect('/');
     } catch (err) {
