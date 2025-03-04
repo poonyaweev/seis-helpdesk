@@ -14,6 +14,7 @@
                 <th>Status</th>
                 <th>Created At</th>
                 <th>Actions</th>
+                <th>Images</th>
             </tr>
         </thead>
         <tbody>
@@ -24,6 +25,7 @@
                     <td><%= ticket.status %></td>
                     <td><%= ticket.createdAt %></td>
                     <td><a href="/update/<%= ticket._id %>">Update</a></td>
+                    <td><img src="/image/<%= ticket._id %>" alt="Ticket Image"></td>
                 </tr>
             <% }); %>
         </tbody>

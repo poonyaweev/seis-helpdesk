@@ -1,4 +1,3 @@
-// ticketModel.js
 const mongoose = require('mongoose');
 
 const ticketSchema = new mongoose.Schema({
@@ -8,6 +7,10 @@ const ticketSchema = new mongoose.Schema({
   status: { type: String, enum: ['Open', 'In Progress', 'Resolved', 'Closed'], default: 'Open' },
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now },
+  image: {
+    data: Buffer,
+    contentType: String
+  },
 });
 
 // Pre-save middleware to generate ticket number
