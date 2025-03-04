@@ -8,27 +8,35 @@
     <a href="/create">Create New Ticket</a>
     <table>
         <thead>
-            <tr>
-                <th>Ticket #</th>
-                <th>Title</th>
-                <th>Status</th>
-                <th>Created At</th>
-                <th>Actions</th>
-                <th>Images</th>
-            </tr>
+          <tr>
+            <th>Ticket Number</th>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Status</th>
+            <th>Created At</th>
+            <th>Updated At</th>
+            <th>Images</th>
+          </tr>
         </thead>
         <tbody>
-            <% tickets.forEach(ticket => { %>
-                <tr>
-                    <td><%= ticket.ticketNumber %></td>
-                    <td><%= ticket.title %></td>
-                    <td><%= ticket.status %></td>
-                    <td><%= ticket.createdAt %></td>
-                    <td><a href="/update/<%= ticket._id %>">Update</a></td>
-                    <td><img src="/image/<%= ticket._id %>" alt="Ticket Image"></td>
-                </tr>
-            <% }); %>
+          <% tickets.forEach(ticket => { %>
+          <tr>
+            <td><%= ticket.ticketNumber %></td>
+            <td><%= ticket.title %></td>
+            <td><%= ticket.description %></td>
+            <td><%= ticket.status %></td>
+            <td><%= ticket.createdAt.toLocaleString() %></td>
+            <td><%= ticket.updatedAt.toLocaleString() %></td>
+            <td>
+              <% if (ticket.image) { %>
+                <a href="/image/<%= ticket._id %>">Images</a> 
+              <% } else { %>
+                No Picture
+              <% } %>
+            </td>
+          </tr>
+          <% }); %>
         </tbody>
-    </table>
+      </table>
 </body>
 </html>

@@ -82,14 +82,21 @@ router.post('/update/:id', async (req, res) => {
 router.get('/image/:id', async (req, res) => {
     try {
       const ticket = await Ticket.findById(req.params.id);
-      if (!ticket || !ticket.image) {
-        return res.status(404).send('Image not found');
+  
+      if (!ticket) {
+        return res.status(404).send('Ticket not found'); 
       }
+  
+      if (!ticket.image || !ticket.image.data || !ticket.image.contentType) {
+        return res.status(404).send('Image not found'); 
+      }
+  
       res.set('Content-Type', ticket.image.contentType);
       res.send(ticket.image.data);
+  
     } catch (err) {
-      console.error(err);
-      res.status(500).send('Error fetching image');
+      console.error(err); 
+      res.status(500).send('Error fetching image'); 
     }
   });
 
