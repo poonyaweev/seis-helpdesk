@@ -11,7 +11,7 @@
         Resolved: <%= counts.Resolved || 0 %>, 
         Closed: <%= counts.Closed || 0 %>
       </div>
-      
+
     <a href="/create">Create New Ticket</a>
     <table>
         <thead>
@@ -45,5 +45,8 @@
           <% }); %>
         </tbody>
       </table>
+      <div>
+        <a href="/export" class="btn btn-primary">Export as CSV</a>
+      </div>
 </body>
 </html>

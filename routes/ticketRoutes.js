@@ -3,6 +3,7 @@ const express = require('express');
 const router = express.Router();
 const Ticket = require('../models/ticketModel');
 const multer = require('multer');
+const { Parser } = require('json2csv');
 
 const storage = multer.memoryStorage(); // Store image in memory
 const upload = multer({ storage: storage });
@@ -111,6 +112,33 @@ router.get('/image/:id', async (req, res) => {
     } catch (err) {
       console.error(err); 
       res.status(500).send('Error fetching image'); 
+    }
+  });
+
+  router.get('/export', async (req, res) => {
+    try {
+      const tickets = await Ticket.find().sort({ updatedAt: -1 });
+  
+      const fields = [
+        'ticketNumber',
+        'description',
+        'status',
+        'createdAt',
+        'updatedAt',
+        'name',
+        'menu',
+        'category'
+      ];
+      const opts = { fields };
+      const parser = new Parser(opts);
+      const csv = parser.parse(tickets);
+  
+      res.set('Content-Type', 'text/csv');
+      res.set('Content-Disposition', 'attachment; filename="tickets.csv"');
+      res.send(csv);
+    } catch (err) {
+      console.error(err);
+      res.status(500).send('Error exporting tickets');
     }
   });
 
