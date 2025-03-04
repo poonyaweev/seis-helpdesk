@@ -17,23 +17,23 @@ const ticketSchema = new mongoose.Schema({
 
 // Pre-save middleware to generate ticket number
 ticketSchema.pre('save', async function (next) {
-  if (!this.ticketNumber) {
-    try {
-      const lastTicket = await Ticket.findOne({}, {}, { sort: { ticketNumber: -1 } });
-      let nextNumber = 1;
-      if (lastTicket && lastTicket.ticketNumber) {
-        const lastNumber = parseInt(lastTicket.ticketNumber.replace('SEIS', ''), 10);
-        nextNumber = lastNumber + 1;
+    if (!this.ticketNumber) {
+      try {
+        const lastTicket = await Ticket.findOne({}, {}, { sort: { ticketNumber: -1 } });
+        let nextNumber = 1;
+        if (lastTicket && lastTicket.ticketNumber) {
+          const lastNumber = parseInt(lastTicket.ticketNumber.replace(/[^0-9]/g, ''), 10); 
+          nextNumber = lastNumber + 1;
+        }
+        this.ticketNumber = `#${String(nextNumber).padStart(7, '0')}`;
+        next();
+      } catch (err) {
+        next(err);
       }
-      this.ticketNumber = `SEIS${String(nextNumber).padStart(7, '0')}`;
+    } else {
       next();
-    } catch (err) {
-      next(err);
     }
-  } else {
-    next();
-  }
-});
+  });
 
 const Ticket = mongoose.model('Ticket', ticketSchema);
 
