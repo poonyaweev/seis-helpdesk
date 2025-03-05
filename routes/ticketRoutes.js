@@ -229,4 +229,29 @@ router.get('/admin', async (req, res) => {
   }
 });
 
+// Admin Dashboard
+router.get('/admin/dashboard', async (req, res) => {
+  try {
+    // Get counts for each status
+    const statusCounts = await Ticket.aggregate([
+      { $group: { _id: '$status', count: { $sum: 1 } } }
+    ]);
+
+    // Convert to an object for easier access in the template
+    const counts = {};
+    statusCounts.forEach(item => {
+      counts[item._id] = item.count;
+    });
+
+    res.render('admin-dashboard', { 
+      counts,
+      title: 'Admin Dashboard',
+      scripts: ''
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error fetching dashboard data');
+  }
+});
+
 module.exports = router;

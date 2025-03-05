@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Dashboard - SEIS Helpdesk</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/core@1.1.1/dist/css/tabler.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+      body {
+        background-color: #1a2234;
+      }
+      .card {
+        background-color: #232b3e;
+        border: 1px solid #2c374c;
+      }
+      .card-title {
+        color: #ffffff !important;
+      }
+      .text-muted {
+        color: #8392ab !important;
+      }
+      .page-title {
+        color: #ffffff;
+      }
+      .stats-card {
+        transition: transform 0.2s;
+      }
+      .stats-card:hover {
+        transform: translateY(-5px);
+      }
+    </style>
+</head>
+<body>
+    <div class="row mb-3">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">สถิติการแจ้งปัญหา</h3>
+            <div class="card-actions">
+              <a href="/admin" class="btn btn-primary">
+                <i class="ti ti-list"></i> รายการทั้งหมด
+              </a>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="row mb-4">
+              <div class="col-md-3">
+                <div class="card stats-card" style="background-color: #2c374c;">
+                  <div class="card-body p-4">
+                    <div class="d-flex align-items-center mb-3">
+                      <div class="subheader text-white">รอตรวจสอบ</div>
+                      <div class="ms-auto lh-1">
+                        <div class="text-white">Open</div>
+                      </div>
+                    </div>
+                    <div class="h1 mb-3 text-white"><%= counts.Open || 0 %></div>
+                    <div class="d-flex">
+                      <div class="text-white">ได้รับการแจ้งปัญหาแล้ว รอตรวจสอบ</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="card stats-card" style="background-color: #0d47a1;">
+                  <div class="card-body p-4">
+                    <div class="d-flex align-items-center mb-3">
+                      <div class="subheader text-white">อยู่ระหว่างดำเนินการ</div>
+                      <div class="ms-auto lh-1">
+                        <div class="text-white">In Progress</div>
+                      </div>
+                    </div>
+                    <div class="h1 mb-3 text-white"><%= counts['In Progress'] || 0 %></div>
+                    <div class="d-flex">
+                      <div class="text-white">อยู่ระหว่างการดำเนินการแก้ไขปัญหา</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="card stats-card" style="background-color: #1b5e20;">
+                  <div class="card-body p-4">
+                    <div class="d-flex align-items-center mb-3">
+                      <div class="subheader text-white">แก้ไขเสร็จสิ้น</div>
+                      <div class="ms-auto lh-1">
+                        <div class="text-white">Resolved</div>
+                      </div>
+                    </div>
+                    <div class="h1 mb-3 text-white"><%= counts.Resolved || 0 %></div>
+                    <div class="d-flex">
+                      <div class="text-white">ปัญหาที่ได้รับการแก้ไขแล้ว</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="card stats-card" style="background-color: #b71c1c;">
+                  <div class="card-body p-4">
+                    <div class="d-flex align-items-center mb-3">
+                      <div class="subheader text-white">ยกเลิก</div>
+                      <div class="ms-auto lh-1">
+                        <div class="text-white">Closed</div>
+                      </div>
+                    </div>
+                    <div class="h1 mb-3 text-white"><%= counts.Closed || 0 %></div>
+                    <div class="d-flex">
+                      <div class="text-white">ปัญหาที่ถูกยกเลิกรายการ</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="row">
+              <div class="col-md-8">
+                <div class="card">
+                  <div class="card-header">
+                    <h3 class="card-title">สถิติรายการแจ้งปัญหาตามสถานะ</h3>
+                  </div>
+                  <div class="card-body">
+                    <canvas id="ticketChart" style="width: 100%; height: 300px;"></canvas>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="card">
+                  <div class="card-header">
+                    <h3 class="card-title">สัดส่วนตามสถานะ</h3>
+                  </div>
+                  <div class="card-body">
+                    <canvas id="statusPieChart" style="width: 100%; height: 300px;"></canvas>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/@tabler/core@1.1.1/dist/js/tabler.min.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Bar Chart
+    const ctx = document.getElementById('ticketChart').getContext('2d');
+    new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: ['รอตรวจสอบ', 'อยู่ระหว่างดำเนินการ', 'แก้ไขเสร็จสิ้น', 'ยกเลิก'],
+        datasets: [{
+          label: 'จำนวนรายการ',
+          data: [
+            <%= counts.Open || 0 %>,
+            <%= counts['In Progress'] || 0 %>,
+            <%= counts.Resolved || 0 %>,
+            <%= counts.Closed || 0 %>
+          ],
+          backgroundColor: [
+            '#2c374c',
+            '#0d47a1',
+            '#1b5e20',
+            '#b71c1c'
+          ],
+          borderWidth: 0
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          y: {
+            beginAtZero: true,
+            ticks: {
+              color: '#a5b3d2'
+            },
+            grid: {
+              color: '#2c374c'
+            }
+          },
+          x: {
+            ticks: {
+              color: '#a5b3d2'
+            },
+            grid: {
+              color: '#2c374c'
+            }
+          }
+        },
+        plugins: {
+          legend: {
+            labels: {
+              color: '#a5b3d2'
+            }
+          }
+        }
+      }
+    });
+
+    // Pie Chart
+    const pieCtx = document.getElementById('statusPieChart').getContext('2d');
+    new Chart(pieCtx, {
+      type: 'pie',
+      data: {
+        labels: ['รอตรวจสอบ', 'อยู่ระหว่างดำเนินการ', 'แก้ไขเสร็จสิ้น', 'ยกเลิก'],
+        datasets: [{
+          data: [
+            <%= counts.Open || 0 %>,
+            <%= counts['In Progress'] || 0 %>,
+            <%= counts.Resolved || 0 %>,
+            <%= counts.Closed || 0 %>
+          ],
+          backgroundColor: [
+            '#2c374c',
+            '#0d47a1',
+            '#1b5e20',
+            '#b71c1c'
+          ],
+          borderWidth: 0
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            position: 'bottom',
+            labels: {
+              color: '#a5b3d2'
+            }
+          }
+        }
+      }
+    });
+  });
+</script>
+</html> 
