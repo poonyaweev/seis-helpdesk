@@ -39,7 +39,7 @@
 
       <div>
         <label for="description">Description:</label>
-        <textarea id="description" name="description"></textarea>
+        <textarea id="description" name="description" required></textarea>
       </div>
     
       <div>
@@ -53,4 +53,16 @@
     <a href="/">Back to Ticket List</a>
 </body>
 <script src="https://cdn.jsdelivr.net/npm/@tabler/core@1.1.1/dist/js/tabler.min.js"></script>
+<script>
+    function validateForm() {
+      const phoneNumber = document.getElementById('phoneNumber').value;
+      const phoneNumberPattern = /^0\d{8,9}$/; // Starts with 0, then 8 or 9 digits
+
+      if (phoneNumber && !phoneNumberPattern.test(phoneNumber)) {
+        alert('Phone Number must be a number starting with 0 and have 9 or 10 digits.');
+        return false; // Prevent form submission
+      }
+      return true; // Allow form submission
+    }
+  </script>
 </html>

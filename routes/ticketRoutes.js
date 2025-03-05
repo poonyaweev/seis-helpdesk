@@ -82,6 +82,11 @@ router.post('/update/:id', async (req, res) => {
       {
         description: req.body.description,
         status: req.body.status,
+        name: req.body.name,
+        menu: req.body.menu,
+        phoneNumber: req.body.phoneNumber,
+        lineID: req.body.lineID,
+        category: req.body.category,
         updatedAt: Date.now(),
       },
       { new: true }
@@ -142,7 +147,9 @@ router.get('/image/:id', async (req, res) => {
         'updatedAt',
         'name',
         'menu',
-        'category'
+        'category',
+        'phoneNumber',
+        'lineID'
       ];
       const opts = { fields };
       const parser = new Parser(opts);
