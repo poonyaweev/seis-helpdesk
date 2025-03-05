@@ -27,7 +27,7 @@ router.get('/', async (req, res) => {
       res.render('index', { 
         tickets, 
         counts,
-        title: 'ระบบรายงานปัญหาการใช้งานโปรแกรม SEIS',
+        title: 'ระบบรายงานปัญหาการใช้งานโปรแกรม SEIS (Role = user)',
         scripts: '',
         totalTickets
       });
@@ -219,7 +219,7 @@ router.get('/admin', async (req, res) => {
     res.render('admin-index', { 
       tickets, 
       counts,
-      title: 'Admin Dashboard - SEIS Helpdesk',
+      title: 'ระบบรายงานปัญหาการใช้งานโปรแกรม SEIS (Role = admin)',
       scripts: '',
       totalTickets
     });

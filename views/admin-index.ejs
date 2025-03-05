@@ -3,6 +3,68 @@
 <head>
     <title>ระบบแจ้งปัญหาการใช้งานโปรแกรม SEIS - Admin</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/core@1.1.1/dist/css/tabler.min.css" />
+    <style>
+      body {
+        background-color: #1a2234;
+      }
+      .card {
+        background-color: #232b3e;
+        border: 1px solid #2c374c;
+      }
+      .card-title, .text-secondary {
+        color: #ffffff !important;
+      }
+      .table {
+        color: #a5b3d2;
+      }
+      .table thead th {
+        background-color: #1a2234;
+        color: #5e72e4 !important;
+        font-weight: 600;
+        border-bottom: 2px solid #2c374c;
+        padding: 1rem;
+      }
+      .card-footer {
+        background-color: #232b3e;
+        border-top: 1px solid #2c374c;
+      }
+      .table tbody tr {
+        background-color: #232b3e;
+      }
+      .table tbody tr:hover {
+        background-color: #2c374c;
+      }
+      .badge.bg-dark-lt {
+        background-color: #2c374c;
+        color: #ffffff;
+      }
+      .badge.bg-blue-lt {
+        background-color: #0d47a1;
+        color: #ffffff;
+      }
+      .badge.bg-green-lt {
+        background-color: #1b5e20;
+        color: #ffffff;
+      }
+      .badge.bg-red-lt {
+        background-color: #b71c1c;
+        color: #ffffff;
+      }
+      .btn-outline-primary {
+        color: #5e72e4;
+        border-color: #5e72e4;
+      }
+      .btn-outline-secondary {
+        color: #8392ab;
+        border-color: #8392ab;
+      }
+      .page-title {
+        color: #ffffff;
+      }
+      .text-muted {
+        color: #8392ab !important;
+      }
+    </style>
 </head>
 <body>
     <div class="row mb-3">
@@ -14,65 +76,65 @@
           <div class="card-body">
             <div class="row">
               <div class="col-md-3">
-                <div class="card bg-dark-lt">
+                <div class="card" style="background-color: #2c374c;">
                   <div class="card-body">
                     <div class="d-flex align-items-center">
-                      <div class="subheader">รอตรวจสอบ</div>
+                      <div class="subheader text-white">รอตรวจสอบ</div>
                       <div class="ms-auto lh-1">
-                        <div class="text-muted">Open</div>
+                        <div class="text-white">Open</div>
                       </div>
                     </div>
-                    <div class="h1 mb-3"><%= counts.Open || 0 %></div>
+                    <div class="h1 mb-3 text-white"><%= counts.Open || 0 %></div>
                     <div class="d-flex mb-2">
-                      <div>ได้รับการแจ้งปัญหาแล้ว รอตรวจสอบ</div>
+                      <div class="text-white">ได้รับการแจ้งปัญหาแล้ว รอตรวจสอบ</div>
                     </div>
                   </div>
                 </div>
               </div>
               <div class="col-md-3">
-                <div class="card bg-blue-lt">
+                <div class="card" style="background-color: #0d47a1;">
                   <div class="card-body">
                     <div class="d-flex align-items-center">
-                      <div class="subheader">อยู่ระหว่างดำเนินการ</div>
+                      <div class="subheader text-white">อยู่ระหว่างดำเนินการ</div>
                       <div class="ms-auto lh-1">
-                        <div class="text-muted">In Progress</div>
+                        <div class="text-white">In Progress</div>
                       </div>
                     </div>
-                    <div class="h1 mb-3"><%= counts['In Progress'] || 0 %></div>
+                    <div class="h1 mb-3 text-white"><%= counts['In Progress'] || 0 %></div>
                     <div class="d-flex mb-2">
-                      <div>อยู่ระหว่างการดำเนินการแก้ไขปัญหา</div>
+                      <div class="text-white">อยู่ระหว่างการดำเนินการแก้ไขปัญหา</div>
                     </div>
                   </div>
                 </div>
               </div>
               <div class="col-md-3">
-                <div class="card bg-green-lt">
+                <div class="card" style="background-color: #1b5e20;">
                   <div class="card-body">
                     <div class="d-flex align-items-center">
-                      <div class="subheader">แก้ไขเสร็จสิ้น</div>
+                      <div class="subheader text-white">แก้ไขเสร็จสิ้น</div>
                       <div class="ms-auto lh-1">
-                        <div class="text-muted">Resolved</div>
+                        <div class="text-white">Resolved</div>
                       </div>
                     </div>
-                    <div class="h1 mb-3"><%= counts.Resolved || 0 %></div>
+                    <div class="h1 mb-3 text-white"><%= counts.Resolved || 0 %></div>
                     <div class="d-flex mb-2">
-                      <div>ปัญหาที่ได้รับการแก้ไขแล้ว</div>
+                      <div class="text-white">ปัญหาที่ได้รับการแก้ไขแล้ว</div>
                     </div>
                   </div>
                 </div>
               </div>
               <div class="col-md-3">
-                <div class="card bg-red-lt">
+                <div class="card" style="background-color: #b71c1c;">
                   <div class="card-body">
                     <div class="d-flex align-items-center">
-                      <div class="subheader">ยกเลิก</div>
+                      <div class="subheader text-white">ยกเลิก</div>
                       <div class="ms-auto lh-1">
-                        <div class="text-muted">Closed</div>
+                        <div class="text-white">Closed</div>
                       </div>
                     </div>
-                    <div class="h1 mb-3"><%= counts.Closed || 0 %></div>
+                    <div class="h1 mb-3 text-white"><%= counts.Closed || 0 %></div>
                     <div class="d-flex mb-2">
-                      <div>ปัญหาที่ถูกยกเลิกรายการ</div>
+                      <div class="text-white">ปัญหาที่ถูกยกเลิกรายการ</div>
                     </div>
                   </div>
                 </div>
@@ -89,14 +151,14 @@
           <div class="card-header">
             <h3 class="card-title">รายการปัญหาทั้งหมด</h3>
             <div class="card-actions">
-              <a href="/terms" class="btn btn-primary">
-                <i class="ti ti-plus"></i> แจ้งปัญหาการใช้งาน
+              <a href="/export" class="btn btn-primary">
+                <i class="ti ti-download"></i> Export as CSV
               </a>
             </div>
           </div>
           <div class="card-body">
             <div class="table-responsive">
-              <table class="table table-vcenter card-table table-striped">
+              <table class="table table-vcenter card-table">
                 <thead>
                   <tr>
                     <th>Ticket No.</th>
@@ -117,13 +179,13 @@
                     <td><%= ticket.description %></td>
                     <td>
                       <% if (ticket.status === 'Open') { %>
-                        <span class="badge bg-dark-lt">รอตรวจสอบ</span>
+                        <span class="badge bg-light text-light-fg">รอตรวจสอบ</span>
                       <% } else if (ticket.status === 'In Progress') { %>
-                        <span class="badge bg-blue-lt">ดำเนินการ</span>
+                        <span class="badge bg-blue text-blue-fg">ดำเนินการ</span>
                       <% } else if (ticket.status === 'Resolved') { %>
-                        <span class="badge bg-green-lt">เสร็จสิ้น</span>
+                        <span class="badge bg-green text-green-fg">เสร็จสิ้น</span>
                       <% } else if (ticket.status === 'Closed') { %>
-                        <span class="badge bg-red-lt">ยกเลิก</span>
+                        <span class="badge bg-red text-red-fg">ยกเลิก</span>
                       <% } %>
                     </td>
                     <td><%= ticket.createdAt.toLocaleString() %></td>
