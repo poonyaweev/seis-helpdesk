@@ -107,6 +107,22 @@
                   </div>
                 </div>
               </div>
+              <div class="col-md-3">
+                <div class="card stats-card" style="background-color: #f57c00;">
+                  <div class="card-body p-4">
+                    <div class="d-flex align-items-center mb-3">
+                      <div class="subheader text-white">รอการตรวจสอบจากแอดมิน</div>
+                      <div class="ms-auto lh-1">
+                        <div class="text-white">Awaiting Feedback</div>
+                      </div>
+                    </div>
+                    <div class="h1 mb-3 text-white"><%= counts['Awaiting Feedback'] || 0 %></div>
+                    <div class="d-flex">
+                      <div class="text-white">รอการตรวจสอบจากแอดมิน</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
             
             <div class="row">
@@ -144,20 +160,22 @@
     new Chart(ctx, {
       type: 'bar',
       data: {
-        labels: ['รอตรวจสอบ', 'อยู่ระหว่างดำเนินการ', 'แก้ไขเสร็จสิ้น', 'ยกเลิก'],
+        labels: ['รอตรวจสอบ', 'อยู่ระหว่างดำเนินการ', 'แก้ไขเสร็จสิ้น', 'ยกเลิก', 'รอการตรวจสอบจากแอดมิน'],
         datasets: [{
           label: 'จำนวนรายการ',
           data: [
             <%= counts.Open || 0 %>,
             <%= counts['In Progress'] || 0 %>,
             <%= counts.Resolved || 0 %>,
-            <%= counts.Closed || 0 %>
+            <%= counts.Closed || 0 %>,
+            <%= counts['Awaiting Feedback'] || 0 %>
           ],
           backgroundColor: [
             '#2c374c',
             '#0d47a1',
             '#1b5e20',
-            '#b71c1c'
+            '#b71c1c',
+            '#f57c00'
           ],
           borderWidth: 0
         }]
@@ -199,19 +217,21 @@
     new Chart(pieCtx, {
       type: 'pie',
       data: {
-        labels: ['รอตรวจสอบ', 'อยู่ระหว่างดำเนินการ', 'แก้ไขเสร็จสิ้น', 'ยกเลิก'],
+        labels: ['รอตรวจสอบ', 'อยู่ระหว่างดำเนินการ', 'แก้ไขเสร็จสิ้น', 'ยกเลิก', 'รอการตรวจสอบจากแอดมิน'],
         datasets: [{
           data: [
             <%= counts.Open || 0 %>,
             <%= counts['In Progress'] || 0 %>,
             <%= counts.Resolved || 0 %>,
-            <%= counts.Closed || 0 %>
+            <%= counts.Closed || 0 %>,
+            <%= counts['Awaiting Feedback'] || 0 %>
           ],
           backgroundColor: [
             '#2c374c',
             '#0d47a1',
             '#1b5e20',
-            '#b71c1c'
+            '#b71c1c',
+            '#f57c00'
           ],
           borderWidth: 0
         }]

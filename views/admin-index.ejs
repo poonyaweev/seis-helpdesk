@@ -139,6 +139,22 @@
                   </div>
                 </div>
               </div>
+              <div class="col-md-3">
+                <div class="card" style="background-color: #f57c00;">
+                  <div class="card-body">
+                    <div class="d-flex align-items-center">
+                      <div class="subheader text-white">รอการตรวจสอบจากแอดมิน</div>
+                      <div class="ms-auto lh-1">
+                        <div class="text-white">Awaiting Feedback</div>
+                      </div>
+                    </div>
+                    <div class="h1 mb-3 text-white"><%= counts['Awaiting Feedback'] || 0 %></div>
+                    <div class="d-flex mb-2">
+                      <div class="text-white">รอการตรวจสอบจากแอดมิน</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -182,13 +198,15 @@
                     <td><%= ticket.description %></td>
                     <td>
                       <% if (ticket.status === 'Open') { %>
-                        <span class="badge bg-light text-light-fg">รอตรวจสอบ</span>
+                        <span class="badge bg-dark text-dark-fg">รอตรวจสอบ</span>
                       <% } else if (ticket.status === 'In Progress') { %>
                         <span class="badge bg-blue text-blue-fg">ดำเนินการ</span>
                       <% } else if (ticket.status === 'Resolved') { %>
                         <span class="badge bg-green text-green-fg">เสร็จสิ้น</span>
                       <% } else if (ticket.status === 'Closed') { %>
                         <span class="badge bg-red text-red-fg">ยกเลิก</span>
+                      <% } else if (ticket.status === 'Awaiting Feedback') { %>
+                        <span class="badge bg-orange text-orange-fg">รอการตรวจสอบจากแอดมิน</span>
                       <% } %>
                     </td>
                     <td><%= ticket.createdAt.toLocaleString() %></td>
