@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Update Ticket</title>
+    <title>อัพเดตรายการปัญหาที่พบ</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/core@1.1.1/dist/css/tabler.min.css" />
 </head>
 <body>
@@ -9,20 +9,20 @@
       <div class="col-md-12">
         <div class="card">
           <div class="card-header">
-            <h3 class="card-title">Update Ticket</h3>
+            <h3 class="card-title">อัพเดตรายการปัญหาที่พบ</h3>
           </div>
           <div class="card-body">
             <form action="/update/<%= ticket._id %>" method="post" enctype="multipart/form-data">
               <div class="row mb-3">
                 <div class="col-md-6">
                   <div class="form-group mb-3">
-                    <label class="form-label required">Name</label>
+                    <label class="form-label required">ชื่อ-นามสกุล</label>
                     <input type="text" id="name" name="name" class="form-control" value="<%= ticket.name %>" required>
                   </div>
                 </div>
                 <div class="col-md-6">
                   <div class="form-group mb-3">
-                    <label class="form-label required">Menu</label>
+                    <label class="form-label required">เมนูในโปรแกรม SEIS ที่พบปัญหา</label>
                     <input type="text" id="menu" name="menu" class="form-control" value="<%= ticket.menu %>" required>
                   </div>
                 </div>
@@ -31,14 +31,14 @@
               <div class="row mb-3">
                 <div class="col-md-6">
                   <div class="form-group mb-3">
-                    <label class="form-label">Phone Number</label>
+                    <label class="form-label">เบอร์โทรศัพท์ (ไม่บังคับ)</label>
                     <input type="text" id="phoneNumber" name="phoneNumber" class="form-control" value="<%= ticket.phoneNumber %>">
-                    <small class="form-hint">Must start with 0 and have 9-10 digits</small>
+                    <small class="form-hint">ระบุเฉพาะตัวเลข ไม่ต้องใส่เครื่องหมายขีดหรือเว้นวรรค</small>
                   </div>
                 </div>
                 <div class="col-md-6">
                   <div class="form-group mb-3">
-                    <label class="form-label">LINE ID</label>
+                    <label class="form-label">LINE ID (ไม่บังคับ)</label>
                     <input type="text" id="lineID" name="lineID" class="form-control" value="<%= ticket.lineID %>">
                   </div>
                 </div>
@@ -47,22 +47,22 @@
               <div class="row mb-3">
                 <div class="col-md-6">
                   <div class="form-group mb-3">
-                    <label class="form-label required">Category</label>
+                    <label class="form-label required">ประเภท</label>
                     <select id="category" name="category" class="form-select" required>
-                      <option value="Problem" <%= ticket.category === 'Problem' ? 'selected' : '' %>>Problem</option>
-                      <option value="Suggestion" <%= ticket.category === 'Suggestion' ? 'selected' : '' %>>Suggestion</option>
-                      <option value="Others" <%= ticket.category === 'Others' ? 'selected' : '' %>>Others</option>
+                      <option value="Problem" <%= ticket.category === 'แจ้งปัญหาการใช้งาน' ? 'selected' : '' %>>Problem</option>
+                      <option value="Suggestion" <%= ticket.category === 'คำแนะนำ / ข้อเสนอแนะ' ? 'selected' : '' %>>Suggestion</option>
+                      <option value="Others" <%= ticket.category === 'อื่นๆ' ? 'selected' : '' %>>Others</option>
                     </select>
                   </div>
                 </div>
                 <div class="col-md-6">
                   <div class="form-group mb-3">
-                    <label class="form-label required">Status</label>
+                    <label class="form-label required">สถานะ</label>
                     <select id="status" name="status" class="form-select" required>
-                      <option value="Open" <%= ticket.status === 'Open' ? 'selected' : '' %>>Open</option>
-                      <option value="In Progress" <%= ticket.status === 'In Progress' ? 'selected' : '' %>>In Progress</option>
-                      <option value="Resolved" <%= ticket.status === 'Resolved' ? 'selected' : '' %>>Resolved</option>
-                      <option value="Closed" <%= ticket.status === 'Closed' ? 'selected' : '' %>>Closed</option>
+                      <option value="Open" <%= ticket.status === 'Open' ? 'selected' : '' %>>รอตรวจสอบ</option>
+                      <option value="In Progress" <%= ticket.status === 'In Progress' ? 'selected' : '' %>>อยู่ระหว่างดำเนินการ</option>
+                      <option value="Resolved" <%= ticket.status === 'Resolved' ? 'selected' : '' %>>แก้ไขเสร็จสิ้น</option>
+                      <option value="Closed" <%= ticket.status === 'Closed' ? 'selected' : '' %>>ยกเลิก</option>
                     </select>
                   </div>
                 </div>
@@ -74,7 +74,7 @@
               </div>
               
               <div class="form-group mb-3">
-                <label class="form-label">Image</label>
+                <label class="form-label">รูปประกอบ (ถ้ามี)</label>
                 <% if (ticket.image) { %>
                   <div class="mb-3">
                     <img src="/image/<%= ticket._id %>" alt="Ticket Image" class="img-thumbnail" style="max-width: 200px;">
@@ -85,9 +85,9 @@
                 
                 <div class="dropzone" id="dropzone-upload">
                   <div class="dz-message">
-                    <h3 class="dropzone-title">Drag and drop an image here or click to select</h3>
+                    <h3 class="dropzone-title">ลากไฟล์มาวางที่นี่หรือคลิกเพื่อเลือกไฟล์</h3>
                     <span class="dropzone-description">
-                      Supports image files (JPG, PNG, GIF) up to 5MB
+                      รองรับไฟล์รูปภาพ (JPG, PNG, GIF) ขนาดไม่เกิน 5MB
                     </span>
                   </div>
                   <div class="preview-container mt-2" id="preview-container" style="display: none;">
@@ -108,13 +108,13 @@
                   </div>
                   <input type="file" id="hidden-image" name="image" style="display: none;">
                 </div>
-                <small class="form-hint">Upload a new image to replace the current one</small>
+                <small class="form-hint">อัพโหลดรูปอีกครั้งเพื่อแทนที่รูปปัจจุบัน</small>
               </div>
               
               <div class="form-footer">
                 <div class="d-flex">
-                  <a href="/" class="btn btn-link">Back to Ticket List</a>
-                  <button type="submit" class="btn btn-primary ms-auto">Update Ticket</button>
+                  <a href="/" class="btn btn-link">กลับหน้าหลัก</a>
+                  <button type="submit" class="btn btn-primary ms-auto">อัพเดตรายการ</button>
                 </div>
               </div>
             </form>

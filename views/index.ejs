@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Helpdesk Tickets</title>
+    <title>ระบบแจ้งปัญหาการใช้งานโปรแกรม SEIS</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/core@1.1.1/dist/css/tabler.min.css" />
 </head>
 <body>
@@ -9,38 +9,38 @@
       <div class="col-12">
         <div class="card">
           <div class="card-header">
-            <h3 class="card-title">Ticket Status</h3>
+            <h3 class="card-title">สถานะ</h3>
           </div>
           <div class="card-body">
             <div class="row">
               <div class="col-md-3">
-                <div class="card bg-primary-lt">
+                <div class="card bg-dark-lt">
                   <div class="card-body">
                     <div class="d-flex align-items-center">
-                      <div class="subheader">Open Tickets</div>
+                      <div class="subheader">รอตรวจสอบ</div>
                       <div class="ms-auto lh-1">
                         <div class="text-muted">Open</div>
                       </div>
                     </div>
                     <div class="h1 mb-3"><%= counts.Open || 0 %></div>
                     <div class="d-flex mb-2">
-                      <div>New tickets awaiting response</div>
+                      <div>ได้รับการแจ้งปัญหาแล้ว รอตรวจสอบ</div>
                     </div>
                   </div>
                 </div>
               </div>
               <div class="col-md-3">
-                <div class="card bg-yellow-lt">
+                <div class="card bg-blue-lt">
                   <div class="card-body">
                     <div class="d-flex align-items-center">
-                      <div class="subheader">In Progress</div>
+                      <div class="subheader">อยู่ระหว่างดำเนินการ</div>
                       <div class="ms-auto lh-1">
                         <div class="text-muted">In Progress</div>
                       </div>
                     </div>
                     <div class="h1 mb-3"><%= counts['In Progress'] || 0 %></div>
                     <div class="d-flex mb-2">
-                      <div>Tickets currently worked on</div>
+                      <div>อยู่ระหว่างการดำเนินการแก้ไขปัญหา</div>
                     </div>
                   </div>
                 </div>
@@ -49,30 +49,30 @@
                 <div class="card bg-green-lt">
                   <div class="card-body">
                     <div class="d-flex align-items-center">
-                      <div class="subheader">Resolved</div>
+                      <div class="subheader">แก้ไขเสร็จสิ้น</div>
                       <div class="ms-auto lh-1">
                         <div class="text-muted">Resolved</div>
                       </div>
                     </div>
                     <div class="h1 mb-3"><%= counts.Resolved || 0 %></div>
                     <div class="d-flex mb-2">
-                      <div>Tickets that have been resolved</div>
+                      <div>ปัญหาที่ได้รับการแก้ไขแล้ว</div>
                     </div>
                   </div>
                 </div>
               </div>
               <div class="col-md-3">
-                <div class="card bg-dark-lt">
+                <div class="card bg-red-lt">
                   <div class="card-body">
                     <div class="d-flex align-items-center">
-                      <div class="subheader">Closed</div>
+                      <div class="subheader">ยกเลิก</div>
                       <div class="ms-auto lh-1">
                         <div class="text-muted">Closed</div>
                       </div>
                     </div>
                     <div class="h1 mb-3"><%= counts.Closed || 0 %></div>
                     <div class="d-flex mb-2">
-                      <div>Tickets that have been closed</div>
+                      <div>ปัญหาที่ถูกยกเลิกรายการ</div>
                     </div>
                   </div>
                 </div>
@@ -87,10 +87,10 @@
       <div class="col-12">
         <div class="card">
           <div class="card-header">
-            <h3 class="card-title">Helpdesk Tickets</h3>
+            <h3 class="card-title">รายการปัญหาทั้งหมด</h3>
             <div class="card-actions">
               <a href="/terms" class="btn btn-primary">
-                <i class="ti ti-plus"></i> Create New Ticket
+                <i class="ti ti-plus"></i> แจ้งปัญหาการใช้งาน
               </a>
             </div>
           </div>
@@ -99,7 +99,7 @@
               <table class="table table-vcenter card-table table-striped">
                 <thead>
                   <tr>
-                    <th>Ticket Number</th>
+                    <th>Ticket No.</th>
                     <th>Menu</th>
                     <th>Description</th>
                     <th>Status</th>
@@ -117,13 +117,13 @@
                     <td><%= ticket.description %></td>
                     <td>
                       <% if (ticket.status === 'Open') { %>
-                        <span class="badge bg-blue-lt"><%= ticket.status %></span>
+                        <span class="badge bg-dark-lt">รอตรวจสอบ</span>
                       <% } else if (ticket.status === 'In Progress') { %>
-                        <span class="badge bg-yellow-lt"><%= ticket.status %></span>
+                        <span class="badge bg-blue-lt">ดำเนินการ</span>
                       <% } else if (ticket.status === 'Resolved') { %>
-                        <span class="badge bg-green-lt"><%= ticket.status %></span>
+                        <span class="badge bg-green-lt">เสร็จสิ้น</span>
                       <% } else if (ticket.status === 'Closed') { %>
-                        <span class="badge bg-dark-lt"><%= ticket.status %></span>
+                        <span class="badge bg-red-lt">ยกเลิก</span>
                       <% } %>
                     </td>
                     <td><%= ticket.createdAt.toLocaleString() %></td>

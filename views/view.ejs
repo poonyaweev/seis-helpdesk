@@ -9,10 +9,10 @@
       <div class="col-md-12">
         <div class="card">
           <div class="card-header">
-            <h3 class="card-title">View Ticket</h3>
+            <h3 class="card-title">ดูรายการปัญหา</h3>
             <div class="card-actions">
               <a href="/update/<%= ticket._id %>" class="btn btn-primary">
-                <i class="ti ti-edit"></i> Edit Ticket
+                <i class="ti ti-edit"></i> แก้ไขรายการ
               </a>
             </div>
           </div>
@@ -20,13 +20,13 @@
             <div class="row mb-3">
               <div class="col-md-6">
                 <div class="form-group mb-3">
-                  <label class="form-label">Name</label>
+                  <label class="form-label">ชื่อ-นามสกุล</label>
                   <input type="text" value="<%= ticket.name %>" class="form-control" readonly>
                 </div>
               </div>
               <div class="col-md-6">
                 <div class="form-group mb-3">
-                  <label class="form-label">Menu</label>
+                  <label class="form-label">เมนูในโปรแกรม SEIS ที่พบปัญหา</label>
                   <input type="text" value="<%= ticket.menu %>" class="form-control" readonly>
                 </div>
               </div>
@@ -35,13 +35,13 @@
             <div class="row mb-3">
               <div class="col-md-6">
                 <div class="form-group mb-3">
-                  <label class="form-label">Phone Number</label>
+                  <label class="form-label">เบอร์โทรศัพท์ (ไม่บังคับ)</label>
                   <input type="text" value="<%= ticket.phoneNumber %>" class="form-control" readonly>
                 </div>
               </div>
               <div class="col-md-6">
                 <div class="form-group mb-3">
-                  <label class="form-label">LINE ID</label>
+                  <label class="form-label">LINE ID (ไม่บังคับ)</label>
                   <input type="text" value="<%= ticket.lineID %>" class="form-control" readonly>
                 </div>
               </div>
@@ -50,22 +50,22 @@
             <div class="row mb-3">
               <div class="col-md-6">
                 <div class="form-group mb-3">
-                  <label class="form-label">Category</label>
+                  <label class="form-label">ประเภท</label>
                   <input type="text" value="<%= ticket.category %>" class="form-control" readonly>
                 </div>
               </div>
               <div class="col-md-6">
                 <div class="form-group mb-3">
-                  <label class="form-label">Status</label>
+                  <label class="form-label">สถานะ</label>
                   <div>
                     <% if (ticket.status === 'Open') { %>
-                      <span class="badge bg-primary"><%= ticket.status %></span>
+                      <span class="badge bg-dark-lt">รอตรวจสอบ</span>
                     <% } else if (ticket.status === 'In Progress') { %>
-                      <span class="badge bg-yellow"><%= ticket.status %></span>
+                      <span class="badge bg-blue-lt">อยู่ระหว่างดำเนินการ</span>
                     <% } else if (ticket.status === 'Resolved') { %>
-                      <span class="badge bg-green"><%= ticket.status %></span>
+                      <span class="badge bg-green-lt">เสร็จสิ้น</span>
                     <% } else if (ticket.status === 'Closed') { %>
-                      <span class="badge bg-secondary"><%= ticket.status %></span>
+                      <span class="badge bg-red-lt">ยกเลิก</span>
                     <% } %>
                   </div>
                 </div>
@@ -73,18 +73,18 @@
             </div>
             
             <div class="form-group mb-3">
-              <label class="form-label">Description</label>
+              <label class="form-label">คำอธิบาย</label>
               <textarea class="form-control" rows="5" readonly><%= ticket.description %></textarea>
             </div>
             
             <div class="form-group mb-3">
-              <label class="form-label">Image</label>
+              <label class="form-label">รูปประกอบ (ถ้ามี)</label>
               <% if (ticket.image) { %>
                 <div>
                   <img src="/image/<%= ticket._id %>" alt="Ticket Image" class="img-thumbnail" style="max-width: 300px;">
                 </div>
               <% } else { %>
-                <div class="text-muted">No Image</div>
+                <div class="text-muted">ไม่มีรูป</div>
               <% } %>
             </div>
             
@@ -96,13 +96,13 @@
             <div class="row">
               <div class="col-md-6">
                 <div class="form-group mb-3">
-                  <label class="form-label">Created At</label>
+                  <label class="form-label">วันที่สร้าง</label>
                   <div class="form-control-plaintext"><%= ticket.createdAt.toLocaleString() %></div>
                 </div>
               </div>
               <div class="col-md-6">
                 <div class="form-group mb-3">
-                  <label class="form-label">Updated At</label>
+                  <label class="form-label">วันที่อัพเดตล่าสุด</label>
                   <div class="form-control-plaintext"><%= ticket.updatedAt.toLocaleString() %></div>
                 </div>
               </div>
@@ -110,7 +110,7 @@
           </div>
           <div class="card-footer">
             <div class="d-flex">
-              <a href="/" class="btn btn-link">Back to Ticket List</a>
+              <a href="/" class="btn btn-link">กลับหน้าหลัก</a>
             </div>
           </div>
         </div>

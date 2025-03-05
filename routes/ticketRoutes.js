@@ -27,7 +27,7 @@ router.get('/', async (req, res) => {
       res.render('index', { 
         tickets, 
         counts,
-        title: 'Helpdesk Tickets',
+        title: 'ระบบรายงานปัญหาการใช้งานโปรแกรม SEIS',
         scripts: '',
         totalTickets
       });
