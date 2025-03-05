@@ -96,6 +96,19 @@ router.post('/update/:id', async (req, res) => {
   }
 });
 
+router.get('/view/:id', async (req, res) => {
+    try {
+      const ticket = await Ticket.findById(req.params.id);
+      if (!ticket) {
+        return res.status(404).send('Ticket not found');
+      }
+      res.render('view', { ticket, readOnly: true }); // Pass readOnly flag
+    } catch (err) {
+      console.error(err);
+      res.status(500).send('Error fetching ticket for view');
+    }
+  });
+
 router.get('/image/:id', async (req, res) => {
     try {
       const ticket = await Ticket.findById(req.params.id);

@@ -9,6 +9,35 @@
 
 <form action="/update/<%= ticket._id %>" method="post" enctype="multipart/form-data">
 
+    <div>
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" value="<%= ticket.name %>">
+      </div>
+
+      <div>
+        <label for="menu">Menu:</label>
+        <input type="text" id="menu" name="menu" value="<%= ticket.menu %>">
+      </div>
+
+      <div>
+        <label for="phoneNumber">Phone Number:</label>
+        <input type="text" id="phoneNumber" name="phoneNumber" value="<%= ticket.phoneNumber %>">
+    </div>
+
+    <div>
+        <label for="lineID">LINE ID:</label>
+        <input type="text" id="lineID" name="lineID" value="<%= ticket.lineID %>">
+    </div>
+
+      <div>
+        <label for="category">Category:</label>
+        <select id="category" name="category">
+          <option value="Problem" <%= ticket.status === 'Problem' ? 'selected' : '' %>>Problem</option>
+          <option value="Suggestion" <%= ticket.status === 'Suggestion' ? 'selected' : '' %>>Suggestion</option>
+          <option value="Others" <%= ticket.status === 'Others' ? 'selected' : '' %>>Others</option>
+        </select>
+      </div>
+
   <div>
     <label for="description">Description:</label>
     <textarea id="description" name="description" required><%= ticket.description %></textarea>
