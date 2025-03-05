@@ -75,20 +75,30 @@ router.get('/update/:id', async (req, res) => {
 });
 
 // Update Ticket Post
-router.post('/update/:id', async (req, res) => {
+router.post('/update/:id', upload.single('image'), async (req, res) => {
   try {
+    const updateData = {
+      description: req.body.description,
+      status: req.body.status,
+      name: req.body.name,
+      menu: req.body.menu,
+      phoneNumber: req.body.phoneNumber,
+      lineID: req.body.lineID,
+      category: req.body.category,
+      updatedAt: Date.now(),
+    };
+
+    // Add image to update data if a new one was uploaded
+    if (req.file) {
+      updateData.image = {
+        data: req.file.buffer,
+        contentType: req.file.mimetype
+      };
+    }
+
     const updatedTicket = await Ticket.findByIdAndUpdate(
       req.params.id,
-      {
-        description: req.body.description,
-        status: req.body.status,
-        name: req.body.name,
-        menu: req.body.menu,
-        phoneNumber: req.body.phoneNumber,
-        lineID: req.body.lineID,
-        category: req.body.category,
-        updatedAt: Date.now(),
-      },
+      updateData,
       { new: true }
     );
     if (!updatedTicket) {
