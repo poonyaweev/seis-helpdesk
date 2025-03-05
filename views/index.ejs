@@ -5,7 +5,6 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/core@1.1.1/dist/css/tabler.min.css" />
 </head>
 <body>
-    <h1>Helpdesk Tickets</h1>
     <div class="row mb-3">
       <div class="col-12">
         <div class="card">
@@ -20,7 +19,7 @@
                     <div class="d-flex align-items-center">
                       <div class="subheader">Open Tickets</div>
                       <div class="ms-auto lh-1">
-                        <div class="text-muted"><%= counts.Open || 0 %></div>
+                        <div class="text-muted">Open</div>
                       </div>
                     </div>
                     <div class="h1 mb-3"><%= counts.Open || 0 %></div>
@@ -36,12 +35,12 @@
                     <div class="d-flex align-items-center">
                       <div class="subheader">In Progress</div>
                       <div class="ms-auto lh-1">
-                        <div class="text-muted"><%= counts['In Progress'] || 0 %></div>
+                        <div class="text-muted">In Progress</div>
                       </div>
                     </div>
                     <div class="h1 mb-3"><%= counts['In Progress'] || 0 %></div>
                     <div class="d-flex mb-2">
-                      <div>Tickets currently being worked on</div>
+                      <div>Tickets currently worked on</div>
                     </div>
                   </div>
                 </div>
@@ -52,7 +51,7 @@
                     <div class="d-flex align-items-center">
                       <div class="subheader">Resolved</div>
                       <div class="ms-auto lh-1">
-                        <div class="text-muted"><%= counts.Resolved || 0 %></div>
+                        <div class="text-muted">Resolved</div>
                       </div>
                     </div>
                     <div class="h1 mb-3"><%= counts.Resolved || 0 %></div>
@@ -63,12 +62,12 @@
                 </div>
               </div>
               <div class="col-md-3">
-                <div class="card bg-muted">
+                <div class="card bg-dark-lt">
                   <div class="card-body">
                     <div class="d-flex align-items-center">
                       <div class="subheader">Closed</div>
                       <div class="ms-auto lh-1">
-                        <div class="text-muted"><%= counts.Closed || 0 %></div>
+                        <div class="text-muted">Closed</div>
                       </div>
                     </div>
                     <div class="h1 mb-3"><%= counts.Closed || 0 %></div>
@@ -101,6 +100,7 @@
                 <thead>
                   <tr>
                     <th>Ticket Number</th>
+                    <th>Menu</th>
                     <th>Description</th>
                     <th>Status</th>
                     <th>Created At</th>
@@ -112,17 +112,18 @@
                 <tbody>
                   <% tickets.forEach(ticket => { %>
                   <tr>
-                    <td><%= ticket.ticketNumber %></td>
+                    <td class="text-secondary"><%= ticket.ticketNumber %></td>
+                    <td><%= ticket.menu %></td>
                     <td><%= ticket.description %></td>
                     <td>
                       <% if (ticket.status === 'Open') { %>
-                        <span class="badge bg-primary"><%= ticket.status %></span>
+                        <span class="badge bg-blue-lt"><%= ticket.status %></span>
                       <% } else if (ticket.status === 'In Progress') { %>
-                        <span class="badge bg-yellow"><%= ticket.status %></span>
+                        <span class="badge bg-yellow-lt"><%= ticket.status %></span>
                       <% } else if (ticket.status === 'Resolved') { %>
-                        <span class="badge bg-green"><%= ticket.status %></span>
+                        <span class="badge bg-green-lt"><%= ticket.status %></span>
                       <% } else if (ticket.status === 'Closed') { %>
-                        <span class="badge bg-secondary"><%= ticket.status %></span>
+                        <span class="badge bg-dark-lt"><%= ticket.status %></span>
                       <% } %>
                     </td>
                     <td><%= ticket.createdAt.toLocaleString() %></td>
@@ -152,8 +153,9 @@
               </table>
             </div>
           </div>
-          <div class="card-footer">
-            <div class="d-flex">
+          <div class="card-footer d-flex align-items-center">
+            <p class="m-0 text-secondary">แสดงทั้งหมด X รายการ</p>
+            <div class="m-0 ms-auto">
               <a href="/export" class="btn btn-outline-primary">
                 <i class="ti ti-download"></i> Export as CSV
               </a>
