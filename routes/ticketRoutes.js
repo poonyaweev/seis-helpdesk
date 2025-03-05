@@ -164,4 +164,8 @@ router.get('/image/:id', async (req, res) => {
     }
   });
 
+  router.get('/terms', (req, res) => {
+    res.render('terms');
+  });
+
 module.exports = router;
