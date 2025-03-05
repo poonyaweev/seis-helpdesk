@@ -4,14 +4,39 @@
   <title>Terms of Service</title>
   <link rel="stylesheet" href="/style.css"> </head>
 <body>
-  <h2>Terms of Service</h2>
-  <p>Please read the following terms of service carefully before proceeding:</p>
-  <textarea readonly rows="10" cols="50">
-    These are the terms of service. 
-    Please read them carefully.
-    ...
-  </textarea>
-  <br>
-  <button onclick="window.location.href='/create'">Accept</button>
-  <button onclick="window.location.href='/'">Decline</button> </body>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">Terms of Service</h3>
+        </div>
+        <div class="card-body">
+          <p class="text-muted mb-4">Please read the following terms of service carefully before proceeding:</p>
+          
+          <div class="form-group mb-4">
+            <div class="form-control" style="height: 300px; overflow-y: auto;">
+              <p>These are the terms of service for using our helpdesk system.</p>
+              <p>By using this service, you agree to the following terms:</p>
+              <ol>
+                <li>All information provided must be accurate and truthful.</li>
+                <li>You agree to use the service only for legitimate purposes.</li>
+                <li>We will handle your personal information according to our privacy policy.</li>
+                <li>We reserve the right to close tickets that remain inactive for more than 30 days.</li>
+                <li>Abusive language or inappropriate content will result in ticket closure.</li>
+                <li>We will make reasonable efforts to respond to your ticket in a timely manner.</li>
+                <li>The service is provided "as is" without warranties of any kind.</li>
+              </ol>
+              <p>Thank you for using our helpdesk system.</p>
+            </div>
+          </div>
+          
+          <div class="d-flex">
+            <a href="/" class="btn btn-link">Decline</a>
+            <a href="/create" class="btn btn-primary ms-auto">Accept</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
 </html>

@@ -24,16 +24,24 @@ router.get('/', async (req, res) => {
         counts[item._id] = item.count;
       });
   
-      res.render('index', { tickets, counts }); // Pass counts to the template
+      res.render('index', { 
+        tickets, 
+        counts,
+        title: 'Helpdesk Tickets',
+        scripts: ''
+      });
     } catch (err) {
       console.error(err);
       res.status(500).send('Error fetching tickets');
     }
   });
 
-// Create Ticket Form
+// Create Ticket Form (after accepting terms)
 router.get('/create', (req, res) => {
-  res.render('create');
+  res.render('create', {
+    title: 'Create Ticket',
+    scripts: '<script>function validateForm() { const phoneNumber = document.getElementById("phoneNumber").value; const phoneNumberPattern = /^0\\d{8,9}$/; if (phoneNumber && !phoneNumberPattern.test(phoneNumber)) { alert("Phone Number must be a number starting with 0 and have 9 or 10 digits."); return false; } return true; }</script>'
+  });
 });
 
 // Create Ticket Post
@@ -67,7 +75,11 @@ router.get('/update/:id', async (req, res) => {
     if (!ticket) {
       return res.status(404).send('Ticket not found');
     }
-    res.render('update', { ticket });
+    res.render('update', { 
+      ticket,
+      title: 'Update Ticket',
+      scripts: ''
+    });
   } catch (err) {
     console.error(err);
     res.status(500).send('Error fetching ticket for update');
@@ -117,7 +129,12 @@ router.get('/view/:id', async (req, res) => {
       if (!ticket) {
         return res.status(404).send('Ticket not found');
       }
-      res.render('view', { ticket, readOnly: true }); // Pass readOnly flag
+      res.render('view', { 
+        ticket, 
+        readOnly: true,
+        title: 'View Ticket',
+        scripts: ''
+      });
     } catch (err) {
       console.error(err);
       res.status(500).send('Error fetching ticket for view');
@@ -175,7 +192,10 @@ router.get('/image/:id', async (req, res) => {
   });
 
   router.get('/terms', (req, res) => {
-    res.render('terms');
+    res.render('terms', {
+      title: 'Terms and Conditions',
+      scripts: ''
+    });
   });
 
 module.exports = router;

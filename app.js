@@ -2,6 +2,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const expressLayouts = require('express-ejs-layouts');
 const ticketRoutes = require('./routes/ticketRoutes'); // Import the ticket routes
 const app = express();
 const port = 3001;
@@ -18,6 +19,8 @@ db.once('open', () => {
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.set('view engine', 'ejs');
+app.use(expressLayouts);
+app.set('layout', 'layout');
 app.use(express.static('public'));
 
 // Routes

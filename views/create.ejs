@@ -5,52 +5,80 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/core@1.1.1/dist/css/tabler.min.css" />
 </head>
 <body>
-    <h2>Create Ticket</h2>
-
-    <form action="/create" method="post" enctype="multipart/form-data">
-      <div>
-        <label for="name">Name:</label>
-        <input type="text" id="name" name="name">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">Create New Ticket</h3>
+          </div>
+          <div class="card-body">
+            <form action="/create" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
+              <div class="row mb-3">
+                <div class="col-md-6">
+                  <div class="form-group mb-3">
+                    <label class="form-label required">Name</label>
+                    <input type="text" id="name" name="name" class="form-control" required>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group mb-3">
+                    <label class="form-label required">Menu</label>
+                    <input type="text" id="menu" name="menu" class="form-control" required>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="row mb-3">
+                <div class="col-md-6">
+                  <div class="form-group mb-3">
+                    <label class="form-label">Phone Number</label>
+                    <input type="text" id="phoneNumber" name="phoneNumber" class="form-control" placeholder="e.g., 0812345678">
+                    <small class="form-hint">Must start with 0 and have 9-10 digits</small>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group mb-3">
+                    <label class="form-label">LINE ID</label>
+                    <input type="text" id="lineID" name="lineID" class="form-control">
+                  </div>
+                </div>
+              </div>
+              
+              <div class="row mb-3">
+                <div class="col-md-6">
+                  <div class="form-group mb-3">
+                    <label class="form-label required">Category</label>
+                    <select id="category" name="category" class="form-select" required>
+                      <option value="">Select a category</option>
+                      <option value="Problem">Problem</option>
+                      <option value="Suggestion">Suggestion</option>
+                      <option value="Others">Others</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="form-group mb-3">
+                <label class="form-label required">Description</label>
+                <textarea id="description" name="description" class="form-control" rows="5" required></textarea>
+              </div>
+              
+              <div class="form-group mb-3">
+                <label class="form-label">Image</label>
+                <input type="file" id="image" name="image" class="form-control">
+              </div>
+              
+              <div class="form-footer">
+                <div class="d-flex">
+                  <a href="/" class="btn btn-link">Cancel</a>
+                  <button type="submit" class="btn btn-primary ms-auto">Create Ticket</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
       </div>
-
-      <div>
-        <label for="menu">Menu:</label>
-        <input type="text" id="menu" name="menu">
-      </div>
-
-      <div>
-        <label for="phoneNumber">Phone Number:</label>
-        <input type="text" id="phoneNumber" name="phoneNumber">
     </div>
-
-    <div>
-        <label for="lineID">LINE ID:</label>
-        <input type="text" id="lineID" name="lineID">
-    </div>
-
-      <div>
-        <label for="category">Category:</label>
-        <select id="category" name="category">
-          <option value="Problem">Problem</option>
-          <option value="Suggestion">Suggestion</option>
-          <option value="Others">Others</option>
-        </select>
-      </div>
-
-      <div>
-        <label for="description">Description:</label>
-        <textarea id="description" name="description" required></textarea>
-      </div>
-    
-      <div>
-        <label for="image">Image:</label>
-        <input type="file" id="image" name="image">
-      </div>
-    
-      <button type="submit">Create Ticket</button>
-    </form>
-    
-    <a href="/">Back to Ticket List</a>
 </body>
 <script src="https://cdn.jsdelivr.net/npm/@tabler/core@1.1.1/dist/js/tabler.min.js"></script>
 <script>
