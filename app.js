@@ -3,7 +3,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const expressLayouts = require('express-ejs-layouts');
-const ticketRoutes = require('./routes/ticketRoutes'); // Import the ticket routes
+const ticketRoutes = require('./routes/ticketRoutes');
 const app = express();
 const port = 3001;
 
@@ -24,7 +24,7 @@ app.set('layout', 'layout');
 app.use(express.static('public'));
 
 // Routes
-app.use('/', ticketRoutes); // Use the ticket routes
+app.use('/', ticketRoutes);
 
 app.listen(port, () => {
   console.log(`Server listening at http://localhost:${port}`);

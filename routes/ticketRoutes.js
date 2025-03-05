@@ -1,17 +1,17 @@
-// routes/ticketRoutes.js
 const express = require('express');
 const router = express.Router();
 const Ticket = require('../models/ticketModel');
 const multer = require('multer');
 const { Parser } = require('json2csv');
 
-const storage = multer.memoryStorage(); // Store image in memory
+const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
 // Home Page (List Tickets - Admin view)
 router.get('/', async (req, res) => {
     try {
       const tickets = await Ticket.find().sort({ updatedAt: -1 });
+      const totalTickets = await Ticket.countDocuments();
   
       // Get counts for each status
       const statusCounts = await Ticket.aggregate([
@@ -28,7 +28,8 @@ router.get('/', async (req, res) => {
         tickets, 
         counts,
         title: 'Helpdesk Tickets',
-        scripts: ''
+        scripts: '',
+        totalTickets
       });
     } catch (err) {
       console.error(err);
