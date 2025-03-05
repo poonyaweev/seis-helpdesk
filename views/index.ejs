@@ -118,7 +118,7 @@
                     <td>
                       <% if (ticket.status === 'Open') { %>
                         <span class="badge bg-dark-lt">รอตรวจสอบ</span>
-                      <% } else if (ticket.status === 'In Progress') { %>
+                      <% } else if (ticket.status === 'In Progress' || ticket.status === 'Awaiting Feedback') { %>
                         <span class="badge bg-blue-lt">ดำเนินการ</span>
                       <% } else if (ticket.status === 'Resolved') { %>
                         <span class="badge bg-green-lt">เสร็จสิ้น</span>
