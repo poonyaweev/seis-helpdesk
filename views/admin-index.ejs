@@ -225,9 +225,11 @@
                         <a href="/view/<%= ticket._id %>" class="btn btn-sm btn-outline-primary">
                           <i class="ti ti-eye"></i> View
                         </a>
-                        <a href="/update/<%= ticket._id %>" class="btn btn-sm btn-outline-secondary">
-                          <i class="ti ti-edit"></i> Update
-                        </a>
+                        <% if (ticket.status === 'Awaiting Feedback') { %>
+                          <a href="/admin/update/<%= ticket._id %>" class="btn btn-sm btn-outline-secondary">
+                            <i class="ti ti-edit"></i> Review
+                          </a>
+                        <% } %>
                       </div>
                     </td>
                   </tr>

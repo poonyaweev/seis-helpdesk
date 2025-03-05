@@ -8,13 +8,23 @@ const ticketSchema = new mongoose.Schema({
   lineID: String,
   category: { type: String, enum: ['Problem', 'Suggestion', 'Others'] },
   description: String,
-  status: { type: String, enum: ['Open', 'In Progress', 'Resolved', 'Closed'], default: 'Open' },
+  status: { 
+    type: String, 
+    enum: ['Open', 'In Progress', 'Resolved', 'Closed', 'Awaiting Feedback'], 
+    default: 'Open' 
+  },
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now },
   image: {
     data: Buffer,
     contentType: String
   },
+  programmerComment: String,
+  programmerImage: {
+    data: Buffer,
+    contentType: String
+  },
+  adminComment: String
 });
 
 // Pre-save middleware to generate ticket number

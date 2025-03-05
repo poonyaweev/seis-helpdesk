@@ -163,6 +163,28 @@ router.get('/image/:id', async (req, res) => {
     }
   });
 
+// Add route for programmer image
+router.get('/programmer-image/:id', async (req, res) => {
+  try {
+    const ticket = await Ticket.findById(req.params.id);
+
+    if (!ticket) {
+      return res.status(404).send('Ticket not found'); 
+    }
+
+    if (!ticket.programmerImage || !ticket.programmerImage.data || !ticket.programmerImage.contentType) {
+      return res.status(404).send('Programmer image not found'); 
+    }
+
+    res.set('Content-Type', ticket.programmerImage.contentType);
+    res.send(ticket.programmerImage.data);
+
+  } catch (err) {
+    console.error(err); 
+    res.status(500).send('Error fetching programmer image'); 
+  }
+});
+
   router.get('/export', async (req, res) => {
     try {
       const tickets = await Ticket.find().sort({ updatedAt: -1 });
@@ -251,6 +273,57 @@ router.get('/admin/dashboard', async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).send('Error fetching dashboard data');
+  }
+});
+
+// Admin Update Ticket Form
+router.get('/admin/update/:id', async (req, res) => {
+  try {
+    const ticket = await Ticket.findById(req.params.id);
+    if (!ticket) {
+      return res.status(404).send('Ticket not found');
+    }
+    res.render('admin-update', { 
+      ticket,
+      title: 'Admin Update Ticket',
+      scripts: ''
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error fetching ticket for update');
+  }
+});
+
+// Admin Update Ticket Post
+router.post('/admin/update/:id', async (req, res) => {
+  try {
+    const { adminComment, action } = req.body;
+    const updateData = {
+      adminComment,
+      updatedAt: Date.now()
+    };
+
+    // Set status based on admin action
+    if (action === 'accept') {
+      updateData.status = 'Resolved';
+    } else if (action === 'reject') {
+      updateData.status = 'In Progress';
+    }
+
+    const updatedTicket = await Ticket.findByIdAndUpdate(
+      req.params.id,
+      updateData,
+      { new: true }
+    );
+
+    if (!updatedTicket) {
+      return res.status(404).send('Ticket not found');
+    }
+
+    res.redirect('/admin');
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error updating ticket');
   }
 });
 
