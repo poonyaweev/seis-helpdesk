@@ -16,6 +16,42 @@
     body {
       font-feature-settings: "cv03", "cv04", "cv11";
     }
+    
+    /* Dropzone styles */
+    .dropzone {
+      border: 2px dashed #dee2e6;
+      border-radius: 4px;
+      padding: 2rem;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .dropzone:hover, .dropzone.border-primary {
+      border-color: #206bc4;
+      background-color: rgba(32, 107, 196, 0.03);
+    }
+    
+    .dropzone .dz-message {
+      margin: 0;
+    }
+    
+    .dropzone .dropzone-title {
+      font-size: 1.25rem;
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+    }
+    
+    .dropzone .dropzone-description {
+      color: #6c757d;
+      font-size: 0.875rem;
+    }
+    
+    .avatar-img {
+      width: 48px;
+      height: 48px;
+      object-fit: cover;
+    }
   </style>
 </head>
 <body>

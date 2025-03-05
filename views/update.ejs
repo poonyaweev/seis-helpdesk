@@ -82,7 +82,32 @@
                 <% } else { %>
                   <div class="mb-3 text-muted">No Image</div>
                 <% } %>
-                <input type="file" id="image" name="image" class="form-control">
+                
+                <div class="dropzone" id="dropzone-upload">
+                  <div class="dz-message">
+                    <h3 class="dropzone-title">Drag and drop an image here or click to select</h3>
+                    <span class="dropzone-description">
+                      Supports image files (JPG, PNG, GIF) up to 5MB
+                    </span>
+                  </div>
+                  <div class="preview-container mt-2" id="preview-container" style="display: none;">
+                    <div class="d-flex align-items-center">
+                      <div class="avatar me-3" id="image-preview-container">
+                        <img src="#" id="image-preview" class="avatar-img rounded">
+                      </div>
+                      <div>
+                        <div class="text-truncate" id="file-name"></div>
+                        <div class="text-muted" id="file-size"></div>
+                      </div>
+                      <div class="ms-auto">
+                        <button type="button" class="btn btn-icon btn-sm btn-ghost-danger" id="remove-file">
+                          <i class="ti ti-x"></i>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <input type="file" id="hidden-image" name="image" style="display: none;">
+                </div>
                 <small class="form-hint">Upload a new image to replace the current one</small>
               </div>
               
@@ -99,4 +124,110 @@
     </div>
 </body>
 <script src="https://cdn.jsdelivr.net/npm/@tabler/core@1.1.1/dist/js/tabler.min.js"></script>
+<script>
+  // Drag and drop functionality
+  document.addEventListener('DOMContentLoaded', function() {
+    const dropzone = document.getElementById('dropzone-upload');
+    const hiddenInput = document.getElementById('hidden-image');
+    const previewContainer = document.getElementById('preview-container');
+    const imagePreview = document.getElementById('image-preview');
+    const fileName = document.getElementById('file-name');
+    const fileSize = document.getElementById('file-size');
+    const removeButton = document.getElementById('remove-file');
+
+    // Prevent default drag behaviors
+    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+      dropzone.addEventListener(eventName, preventDefaults, false);
+    });
+
+    function preventDefaults(e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+
+    // Highlight drop area when item is dragged over it
+    ['dragenter', 'dragover'].forEach(eventName => {
+      dropzone.addEventListener(eventName, highlight, false);
+    });
+
+    ['dragleave', 'drop'].forEach(eventName => {
+      dropzone.addEventListener(eventName, unhighlight, false);
+    });
+
+    function highlight() {
+      dropzone.classList.add('border-primary');
+    }
+
+    function unhighlight() {
+      dropzone.classList.remove('border-primary');
+    }
+
+    // Handle dropped files
+    dropzone.addEventListener('drop', handleDrop, false);
+    
+    // Handle click to select files
+    dropzone.addEventListener('click', function() {
+      hiddenInput.click();
+    });
+    
+    hiddenInput.addEventListener('change', function() {
+      if (hiddenInput.files && hiddenInput.files[0]) {
+        handleFiles(hiddenInput.files);
+      }
+    });
+
+    function handleDrop(e) {
+      const dt = e.dataTransfer;
+      const files = dt.files;
+      handleFiles(files);
+    }
+
+    function handleFiles(files) {
+      if (files.length > 0) {
+        const file = files[0];
+        
+        // Check if file is an image
+        if (!file.type.match('image.*')) {
+          alert('Please upload only image files');
+          return;
+        }
+        
+        // Check file size (5MB max)
+        if (file.size > 5 * 1024 * 1024) {
+          alert('File size must not exceed 5MB');
+          return;
+        }
+        
+        // Update hidden input with the file
+        const dataTransfer = new DataTransfer();
+        dataTransfer.items.add(file);
+        hiddenInput.files = dataTransfer.files;
+        
+        // Show preview
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          imagePreview.src = e.target.result;
+          fileName.textContent = file.name;
+          fileSize.textContent = formatFileSize(file.size);
+          previewContainer.style.display = 'block';
+          dropzone.querySelector('.dz-message').style.display = 'none';
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+    
+    // Remove file
+    removeButton.addEventListener('click', function() {
+      hiddenInput.value = '';
+      previewContainer.style.display = 'none';
+      dropzone.querySelector('.dz-message').style.display = 'block';
+    });
+    
+    function formatFileSize(bytes) {
+      if (bytes < 1024) return bytes + ' bytes';
+      else if (bytes < 1048576) return (bytes / 1024).toFixed(1) + ' KB';
+      else return (bytes / 1048576).toFixed(1) + ' MB';
+    }
+  });
+</script>
 </html>

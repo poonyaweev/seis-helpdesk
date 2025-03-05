@@ -59,13 +59,37 @@
               </div>
               
               <div class="form-group mb-3">
-                <label class="form-label required">คำอธิบาย</label>
+                <label class="form-label">คำอธิบาย</label>
                 <textarea id="description" name="description" class="form-control" rows="5" required></textarea>
               </div>
               
               <div class="form-group mb-3">
                 <label class="form-label">รูปประกอบ (ถ้ามี)</label>
-                <input type="file" id="image" name="image" class="form-control">
+                <div class="dropzone" id="dropzone-upload">
+                  <div class="dz-message">
+                    <h3 class="dropzone-title">ลากไฟล์มาวางที่นี่หรือคลิกเพื่อเลือกไฟล์</h3>
+                    <span class="dropzone-description">
+                      รองรับไฟล์รูปภาพ (JPG, PNG, GIF) ขนาดไม่เกิน 5MB
+                    </span>
+                  </div>
+                  <div class="preview-container mt-2" id="preview-container" style="display: none;">
+                    <div class="d-flex align-items-center">
+                      <div class="avatar me-3" id="image-preview-container">
+                        <img src="#" id="image-preview" class="avatar-img rounded">
+                      </div>
+                      <div>
+                        <div class="text-truncate" id="file-name"></div>
+                        <div class="text-muted" id="file-size"></div>
+                      </div>
+                      <div class="ms-auto">
+                        <button type="button" class="btn btn-icon btn-sm btn-ghost-danger" id="remove-file">
+                          <i class="ti ti-x"></i>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <input type="file" id="hidden-image" name="image" style="display: none;">
+                </div>
               </div>
               
               <div class="form-footer">
@@ -87,10 +111,115 @@
       const phoneNumberPattern = /^0\d{8,9}$/; // Starts with 0, then 8 or 9 digits
 
       if (phoneNumber && !phoneNumberPattern.test(phoneNumber)) {
-        alert('Phone Number must be a number starting with 0 and have 9 or 10 digits.');
+        alert('เบอร์โทรศัพท์ต้องขึ้นต้นด้วย 0 และมีความยาว 9-10 หลัก');
         return false; // Prevent form submission
       }
       return true; // Allow form submission
     }
+
+    // Drag and drop functionality
+    document.addEventListener('DOMContentLoaded', function() {
+      const dropzone = document.getElementById('dropzone-upload');
+      const hiddenInput = document.getElementById('hidden-image');
+      const previewContainer = document.getElementById('preview-container');
+      const imagePreview = document.getElementById('image-preview');
+      const fileName = document.getElementById('file-name');
+      const fileSize = document.getElementById('file-size');
+      const removeButton = document.getElementById('remove-file');
+
+      // Prevent default drag behaviors
+      ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+        dropzone.addEventListener(eventName, preventDefaults, false);
+      });
+
+      function preventDefaults(e) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+
+      // Highlight drop area when item is dragged over it
+      ['dragenter', 'dragover'].forEach(eventName => {
+        dropzone.addEventListener(eventName, highlight, false);
+      });
+
+      ['dragleave', 'drop'].forEach(eventName => {
+        dropzone.addEventListener(eventName, unhighlight, false);
+      });
+
+      function highlight() {
+        dropzone.classList.add('border-primary');
+      }
+
+      function unhighlight() {
+        dropzone.classList.remove('border-primary');
+      }
+
+      // Handle dropped files
+      dropzone.addEventListener('drop', handleDrop, false);
+      
+      // Handle click to select files
+      dropzone.addEventListener('click', function() {
+        hiddenInput.click();
+      });
+      
+      hiddenInput.addEventListener('change', function() {
+        if (hiddenInput.files && hiddenInput.files[0]) {
+          handleFiles(hiddenInput.files);
+        }
+      });
+
+      function handleDrop(e) {
+        const dt = e.dataTransfer;
+        const files = dt.files;
+        handleFiles(files);
+      }
+
+      function handleFiles(files) {
+        if (files.length > 0) {
+          const file = files[0];
+          
+          // Check if file is an image
+          if (!file.type.match('image.*')) {
+            alert('กรุณาอัพโหลดไฟล์รูปภาพเท่านั้น');
+            return;
+          }
+          
+          // Check file size (5MB max)
+          if (file.size > 5 * 1024 * 1024) {
+            alert('ขนาดไฟล์ต้องไม่เกิน 5MB');
+            return;
+          }
+          
+          // Update hidden input with the file
+          const dataTransfer = new DataTransfer();
+          dataTransfer.items.add(file);
+          hiddenInput.files = dataTransfer.files;
+          
+          // Show preview
+          const reader = new FileReader();
+          reader.onload = function(e) {
+            imagePreview.src = e.target.result;
+            fileName.textContent = file.name;
+            fileSize.textContent = formatFileSize(file.size);
+            previewContainer.style.display = 'block';
+            dropzone.querySelector('.dz-message').style.display = 'none';
+          };
+          reader.readAsDataURL(file);
+        }
+      }
+      
+      // Remove file
+      removeButton.addEventListener('click', function() {
+        hiddenInput.value = '';
+        previewContainer.style.display = 'none';
+        dropzone.querySelector('.dz-message').style.display = 'block';
+      });
+      
+      function formatFileSize(bytes) {
+        if (bytes < 1024) return bytes + ' bytes';
+        else if (bytes < 1048576) return (bytes / 1024).toFixed(1) + ' KB';
+        else return (bytes / 1048576).toFixed(1) + ' MB';
+      }
+    });
   </script>
 </html>
