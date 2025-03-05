@@ -199,4 +199,34 @@ router.get('/image/:id', async (req, res) => {
     });
   });
 
+// Admin Page (List Tickets with Update functionality)
+router.get('/admin', async (req, res) => {
+  try {
+    const tickets = await Ticket.find().sort({ updatedAt: -1 });
+    const totalTickets = await Ticket.countDocuments();
+
+    // Get counts for each status
+    const statusCounts = await Ticket.aggregate([
+      { $group: { _id: '$status', count: { $sum: 1 } } }
+    ]);
+
+    // Convert to an object for easier access in the template
+    const counts = {};
+    statusCounts.forEach(item => {
+      counts[item._id] = item.count;
+    });
+
+    res.render('admin-index', { 
+      tickets, 
+      counts,
+      title: 'Admin Dashboard - SEIS Helpdesk',
+      scripts: '',
+      totalTickets
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error fetching tickets');
+  }
+});
+
 module.exports = router;

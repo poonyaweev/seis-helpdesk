@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>ระบบแจ้งปัญหาการใช้งานโปรแกรม SEIS</title>
+    <title>ระบบแจ้งปัญหาการใช้งานโปรแกรม SEIS - Admin</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/core@1.1.1/dist/css/tabler.min.css" />
 </head>
 <body>
@@ -142,6 +142,9 @@
                         <a href="/view/<%= ticket._id %>" class="btn btn-sm btn-outline-primary">
                           <i class="ti ti-eye"></i> View
                         </a>
+                        <a href="/update/<%= ticket._id %>" class="btn btn-sm btn-outline-secondary">
+                          <i class="ti ti-edit"></i> Update
+                        </a>
                       </div>
                     </td>
                   </tr>
@@ -152,10 +155,15 @@
           </div>
           <div class="card-footer d-flex align-items-center">
             <p class="m-0 text-secondary">แสดงทั้งหมด <%= totalTickets %> รายการ</p>
+            <div class="m-0 ms-auto">
+              <a href="/export" class="btn btn-outline-primary">
+                <i class="ti ti-download"></i> Export as CSV
+              </a>
+            </div>
           </div>
         </div>
       </div>
     </div>
 </body>
 <script src="https://cdn.jsdelivr.net/npm/@tabler/core@1.1.1/dist/js/tabler.min.js"></script>
-</html>
+</html> 
