@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ระบบแจ้งปัญหาการใช้งานโปรแกรม SEIS - Programmer</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/core@1.1.1/dist/css/tabler.min.css" />
+    <style>
+      body {
+        background-color: #fff5eb;
+      }
+      .card {
+        background-color: #ffffff;
+        border: 1px solid #ffe4cc;
+      }
+      .card-title, .text-secondary {
+        color: #333333 !important;
+      }
+      .table {
+        color: #4a4a4a;
+      }
+      .table thead th {
+        background-color: #ffead6;
+        color: #ff8c42 !important;
+        font-weight: 600;
+        border-bottom: 2px solid #ffe4cc;
+        padding: 1rem;
+      }
+      .card-footer {
+        background-color: #ffffff;
+        border-top: 1px solid #ffe4cc;
+      }
+      .table tbody tr {
+        background-color: #ffffff;
+      }
+      .table tbody tr:hover {
+        background-color: #fff5eb;
+      }
+      .badge.bg-dark-lt {
+        background-color: #2c374c;
+        color: #ffffff;
+      }
+      .badge.bg-blue-lt {
+        background-color: #0d47a1;
+        color: #ffffff;
+      }
+      .badge.bg-green-lt {
+        background-color: #1b5e20;
+        color: #ffffff;
+      }
+      .badge.bg-red-lt {
+        background-color: #b71c1c;
+        color: #ffffff;
+      }
+      .btn-outline-primary {
+        color: #ff8c42;
+        border-color: #ff8c42;
+      }
+      .btn-outline-primary:hover {
+        background-color: #ff8c42;
+        color: #ffffff;
+      }
+      .btn-outline-secondary {
+        color: #666666;
+        border-color: #666666;
+      }
+      .page-title {
+        color: #333333;
+      }
+      .text-muted {
+        color: #666666 !important;
+      }
+      /* Status card styles */
+      .status-card {
+        transition: transform 0.2s;
+      }
+      .status-card:hover {
+        transform: translateY(-5px);
+      }
+    </style>
+</head>
+<body>
+    <div class="row mb-3">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">สถานะ</h3>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-3">
+                <div class="card status-card" style="background-color: #2c374c;">
+                  <div class="card-body">
+                    <div class="d-flex align-items-center">
+                      <div class="subheader text-white">รอตรวจสอบ</div>
+                      <div class="ms-auto lh-1">
+                        <div class="text-white">Open</div>
+                      </div>
+                    </div>
+                    <div class="h1 mb-3 text-white"><%= counts.Open || 0 %></div>
+                    <div class="d-flex mb-2">
+                      <div class="text-white">ได้รับการแจ้งปัญหาแล้ว รอตรวจสอบ</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="card status-card" style="background-color: #0d47a1;">
+                  <div class="card-body">
+                    <div class="d-flex align-items-center">
+                      <div class="subheader text-white">อยู่ระหว่างดำเนินการ</div>
+                      <div class="ms-auto lh-1">
+                        <div class="text-white">In Progress</div>
+                      </div>
+                    </div>
+                    <div class="h1 mb-3 text-white"><%= counts['In Progress'] || 0 %></div>
+                    <div class="d-flex mb-2">
+                      <div class="text-white">อยู่ระหว่างการดำเนินการแก้ไขปัญหา</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="card status-card" style="background-color: #1b5e20;">
+                  <div class="card-body">
+                    <div class="d-flex align-items-center">
+                      <div class="subheader text-white">แก้ไขเสร็จสิ้น</div>
+                      <div class="ms-auto lh-1">
+                        <div class="text-white">Resolved</div>
+                      </div>
+                    </div>
+                    <div class="h1 mb-3 text-white"><%= counts.Resolved || 0 %></div>
+                    <div class="d-flex mb-2">
+                      <div class="text-white">ปัญหาที่ได้รับการแก้ไขแล้ว</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="card status-card" style="background-color: #b71c1c;">
+                  <div class="card-body">
+                    <div class="d-flex align-items-center">
+                      <div class="subheader text-white">ยกเลิก</div>
+                      <div class="ms-auto lh-1">
+                        <div class="text-white">Closed</div>
+                      </div>
+                    </div>
+                    <div class="h1 mb-3 text-white"><%= counts.Closed || 0 %></div>
+                    <div class="d-flex mb-2">
+                      <div class="text-white">ปัญหาที่ถูกยกเลิกรายการ</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">รายการปัญหาทั้งหมด</h3>
+            <div class="card-actions">
+              <a href="/export" class="btn btn-primary">
+                <i class="ti ti-download"></i> Export as CSV
+              </a>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-vcenter card-table">
+                <thead>
+                  <tr>
+                    <th>Ticket No.</th>
+                    <th>Menu</th>
+                    <th>Description</th>
+                    <th>Status</th>
+                    <th>Created At</th>
+                    <th>Updated At</th>
+                    <th>Images</th>
+                    <th class="w-1">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% tickets.forEach(ticket => { %>
+                  <tr>
+                    <td class="text-secondary"><%= ticket.ticketNumber %></td>
+                    <td><%= ticket.menu %></td>
+                    <td><%= ticket.description %></td>
+                    <td>
+                      <% if (ticket.status === 'Open') { %>
+                        <span class="badge bg-dark text-dark-fg">รอตรวจสอบ</span>
+                      <% } else if (ticket.status === 'In Progress') { %>
+                        <span class="badge bg-blue text-blue-fg">ดำเนินการ</span>
+                      <% } else if (ticket.status === 'Resolved') { %>
+                        <span class="badge bg-green text-green-fg">เสร็จสิ้น</span>
+                      <% } else if (ticket.status === 'Closed') { %>
+                        <span class="badge bg-red text-red-fg">ยกเลิก</span>
+                      <% } %>
+                    </td>
+                    <td><%= ticket.createdAt.toLocaleString() %></td>
+                    <td><%= ticket.updatedAt.toLocaleString() %></td>
+                    <td>
+                      <% if (ticket.image) { %>
+                        <a href="/image/<%= ticket._id %>" class="btn btn-sm btn-outline-primary">
+                          <i class="ti ti-photo"></i> View
+                        </a>
+                      <% } else { %>
+                        <span class="text-muted">No Image</span>
+                      <% } %>
+                    </td>
+                    <td>
+                      <div class="btn-list flex-nowrap">
+                        <a href="/view/<%= ticket._id %>" class="btn btn-sm btn-outline-primary">
+                          <i class="ti ti-eye"></i> View
+                        </a>
+                        <a href="/update/<%= ticket._id %>" class="btn btn-sm btn-outline-secondary">
+                          <i class="ti ti-edit"></i> Update
+                        </a>
+                      </div>
+                    </td>
+                  </tr>
+                  <% }); %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="card-footer d-flex align-items-center">
+            <p class="m-0 text-secondary">แสดงทั้งหมด <%= totalTickets %> รายการ</p>
+            <div class="m-0 ms-auto">
+              <a href="/export" class="btn btn-outline-primary">
+                <i class="ti ti-download"></i> Export as CSV
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/@tabler/core@1.1.1/dist/js/tabler.min.js"></script>
+</html> 
