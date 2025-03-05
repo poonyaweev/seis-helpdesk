@@ -43,6 +43,8 @@ router.post('/create', upload.single('image'), async (req, res) => {
         description: req.body.description,
         name: req.body.name,
         menu: req.body.menu,
+        phoneNumber: req.body.phoneNumber,
+        lineID: req.body.lineID,
         category: req.body.category,
         image: req.file ? { // Conditionally add image data if it exists
           data: req.file.buffer,

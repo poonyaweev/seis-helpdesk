@@ -4,6 +4,8 @@ const ticketSchema = new mongoose.Schema({
   ticketNumber: { type: String, unique: true },
   name: String,
   menu: String,
+  phoneNumber: String,
+  lineID: String,
   category: { type: String, enum: ['Problem', 'Suggestion', 'Others'] },
   description: String,
   status: { type: String, enum: ['Open', 'In Progress', 'Resolved', 'Closed'], default: 'Open' },
