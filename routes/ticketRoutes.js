@@ -284,4 +284,55 @@ router.get('/programmer', async (req, res) => {
   }
 });
 
+// Programmer Update Page
+router.get('/programmer/update/:id', async (req, res) => {
+  try {
+    const ticket = await Ticket.findById(req.params.id);
+    if (!ticket) {
+      return res.status(404).send('Ticket not found');
+    }
+    res.render('programmer-update', { 
+      ticket,
+      title: 'Programmer Update Ticket',
+      scripts: ''
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error fetching ticket for update');
+  }
+});
+
+// Programmer Update Post
+router.post('/programmer/update/:id', upload.single('image'), async (req, res) => {
+  try {
+    const updateData = {
+      status: 'Awaiting Feedback',
+      programmerComment: req.body.comment,
+      updatedAt: Date.now(),
+    };
+
+    // Add image to update data if a new one was uploaded
+    if (req.file) {
+      updateData.image = {
+        data: req.file.buffer,
+        contentType: req.file.mimetype
+      };
+    }
+
+    const updatedTicket = await Ticket.findByIdAndUpdate(
+      req.params.id,
+      updateData,
+      { new: true }
+    );
+    
+    if (!updatedTicket) {
+      return res.status(404).send('Ticket not found');
+    }
+    res.redirect('/programmer');
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error updating ticket');
+  }
+});
+
 module.exports = router;
