@@ -8,7 +8,7 @@ const app = express();
 const port = 3001;
 
 // MongoDB Connection
-mongoose.connect('mongodb://127.0.0.1:27017/helpdesk');
+mongoose.connect('mongodb://127.0.0.1:27017/seis_support');
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 db.once('open', () => {
