@@ -21,9 +21,14 @@
           }
         );
         
-        // Store the API response in a variable
+        // Store the API response in sessionStorage
         const userData = response.data;
         console.log('API Response:', userData);
+        
+        // Store the fullname in sessionStorage
+        if (userData.data && userData.data['0'] && userData.data['0'].fullname) {
+          sessionStorage.setItem('userFullname', userData.data['0'].fullname);
+        }
         
         // Redirect to /create page after successful API call
         window.location.href = '/create';
