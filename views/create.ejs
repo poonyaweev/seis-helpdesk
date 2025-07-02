@@ -111,13 +111,21 @@
       const userFullname = sessionStorage.getItem('userFullname');
       const nameInput = document.getElementById('name');
       
-      if (userFullname && nameInput) {
-        nameInput.value = userFullname;
-        // Make the field read-only after setting the value
-        nameInput.readOnly = true;
-        // Add a visual indicator that the field is pre-filled
-        nameInput.style.backgroundColor = '#f8f9fa';
-        nameInput.style.cursor = 'not-allowed';
+      if (nameInput) {
+        if (userFullname && userFullname.trim() !== '') {
+          nameInput.value = userFullname;
+          // Make the field read-only after setting the value
+          nameInput.readOnly = true;
+          // Add a visual indicator that the field is pre-filled
+          nameInput.style.backgroundColor = '#f8f9fa';
+          nameInput.style.cursor = 'not-allowed';
+        } else {
+          // If fullname is empty or not available
+          nameInput.value = 'Data Not Available';
+          nameInput.readOnly = false; // Allow editing if data is not available
+          nameInput.style.backgroundColor = '#fff';
+          nameInput.style.cursor = 'text';
+        }
       }
     });
 
