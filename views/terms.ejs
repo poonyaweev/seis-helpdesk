@@ -2,7 +2,39 @@
 <html>
 <head>
   <title>Terms of Service</title>
-  <link rel="stylesheet" href="/style.css"> </head>
+  <link rel="stylesheet" href="/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script>
+    async function loginWithSEIS(event) {
+      event.preventDefault();
+      
+      try {
+        // Replace 'YOUR_BEARER_TOKEN' with your actual Bearer token
+        const response = await axios.post(
+          'https://seis1.ocsc.go.th/api/user_detail_login/login',
+          {}, // Request body (empty if not needed)
+          {
+            headers: {
+              'Authorization': 'Bearer c_V112c~-122d88B119b@J*Q71Y121Z87E119M109M@Y122F106Z106E@N109M122Y106Y119M106Z106Z68Z104N122B109O68c$',
+              'Content-Type': 'application/json'
+            }
+          }
+        );
+        
+        // Store the API response in a variable
+        const userData = response.data;
+        console.log('API Response:', userData);
+        
+        // Redirect to /create page after successful API call
+        window.location.href = '/create';
+        
+      } catch (error) {
+        console.error('Error calling SEIS API:', error);
+        alert('เกิดข้อผิดพลาดในการเชื่อมต่อกับระบบ กรุณาลองใหม่อีกครั้ง');
+      }
+    }
+  </script>
+</head>
 <body>
   <div class="row">
     <div class="col-md-12">
@@ -25,7 +57,7 @@
           
           <div class="d-flex">
             <a href="/" class="btn btn-link">ปฏิเสธ</a>
-            <a href="/create" class="btn btn-primary ms-auto">ลงชื่อเข้าใช้ด้วย SEIS</a>
+            <button onclick="loginWithSEIS(event)" class="btn btn-primary ms-auto">ลงชื่อเข้าใช้ด้วย SEIS</button>
           </div>
         </div>
       </div>
