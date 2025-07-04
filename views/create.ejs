@@ -133,23 +133,53 @@
       const departmentInput = document.getElementById('department');
       const ipAddressInput = document.getElementById('ipAddress');
       
-      if (userDepartment) departmentInput.value = userDepartment;
-      if (userIpAddress) ipAddressInput.value = userIpAddress;
+      // Function to style and disable a field with a lock icon
+      const styleDisabledField = (input) => {
+        input.readOnly = true;
+        input.style.paddingRight = '2.5rem';
+        input.style.backgroundImage = 'url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' class=\'icon icon-tabler icon-tabler-lock\' width=\'16\' height=\'16\' viewBox=\'0 0 24 24\' stroke-width=\'2\' stroke=\'%234a5568\' fill=\'none\' stroke-linecap=\'round\' stroke-linejoin=\'round\'%3E%3Cpath stroke=\'none\' d=\'M0 0h24v24H0z\' fill=\'none\'/%3E%3Crect x=\'5\' y=\'11\' width=\'14\' height=\'10\' rx=\'2\'/%3E%3Ccircle cx=\'12\' cy=\'16\' r=\'1\'/%3E%3Cpath d=\'M8 11v-4a4 4 0 0 1 8 0v4\'/%3E%3C/svg%3E")';
+        input.style.backgroundRepeat = 'no-repeat';
+        input.style.backgroundPosition = 'right 0.75rem center';
+        input.style.backgroundSize = '1rem';
+        input.style.backgroundColor = '#f0f4f8';
+        input.style.color = '#4a5568';
+        input.style.border = '1px solid #cbd5e0';
+        input.style.boxShadow = 'inset 0 1px 2px rgba(0, 0, 0, 0.05)';
+        input.style.cursor = 'not-allowed';
+        input.style.fontWeight = '500';
+        input.style.opacity = '0.9';
+      };
       
+      // Handle name field
       if (nameInput) {
         if (userFullname && userFullname.trim() !== '') {
           nameInput.value = userFullname;
-          // Make the field read-only after setting the value
-          nameInput.readOnly = true;
-          // Add a visual indicator that the field is pre-filled
-          nameInput.style.backgroundColor = '#f8f9fa';
-          nameInput.style.cursor = 'not-allowed';
+          styleDisabledField(nameInput);
         } else {
-          // If fullname is empty or not available
           nameInput.value = 'Data Not Available';
-          nameInput.readOnly = false; // Allow editing if data is not available
-          nameInput.style.backgroundColor = '#fff';
-          nameInput.style.cursor = 'text';
+          nameInput.readOnly = false;
+        }
+      }
+      
+      // Handle department field
+      if (departmentInput) {
+        if (userDepartment && userDepartment.trim() !== '') {
+          departmentInput.value = userDepartment;
+          styleDisabledField(departmentInput);
+        } else {
+          departmentInput.value = 'Data Not Available';
+          styleDisabledField(departmentInput);
+        }
+      }
+      
+      // Handle IP address field
+      if (ipAddressInput) {
+        if (userIpAddress && userIpAddress.trim() !== '') {
+          ipAddressInput.value = userIpAddress;
+          styleDisabledField(ipAddressInput);
+        } else {
+          ipAddressInput.value = 'Data Not Available';
+          styleDisabledField(ipAddressInput);
         }
       }
     });
