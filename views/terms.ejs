@@ -3,15 +3,93 @@
 <head>
   <title>Terms of Service</title>
   <link rel="stylesheet" href="/style.css">
+  <style>
+    .is-invalid {
+      border-color: #dc3545 !important;
+    }
+    .invalid-feedback {
+      color: #dc3545;
+      font-size: 0.875em;
+    }
+  </style>
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script>
+    function validateThaiID(id) {
+      if (!/^\d{13}$/.test(id)) return false;
+      
+      let sum = 0;
+      for (let i = 0; i < 12; i++) {
+        sum += parseInt(id.charAt(i)) * (13 - i);
+      }
+      
+      const checkDigit = (11 - (sum % 11)) % 10;
+      return checkDigit === parseInt(id.charAt(12));
+    }
+    
+    function showError(message) {
+      const errorElement = document.getElementById('idError');
+      errorElement.textContent = message;
+      errorElement.style.display = 'block';
+      return false;
+    }
+    
+    function hideError() {
+      const errorElement = document.getElementById('idError');
+      errorElement.style.display = 'none';
+      return true;
+    }
+    
+    function formatID(id) {
+      return id.replace(/\D/g, '');
+    }
+    
+    function handleIDInput(e) {
+      const input = e.target;
+      let value = input.value.replace(/\D/g, '');
+      
+      // Limit to 13 digits
+      if (value.length > 13) {
+        value = value.slice(0, 13);
+      }
+      
+      input.value = value;
+      
+      // Only validate when we have 13 digits
+      if (value.length === 13) {
+        if (!validateThaiID(value)) {
+          showError('หมายเลขบัตรประชาชนไม่ถูกต้อง');
+        } else {
+          hideError();
+        }
+      } else if (value.length > 0) {
+        showError('หมายเลขบัตรประชาชนต้องมี 13 หลัก');
+      } else {
+        hideError();
+      }
+    }
+    
     async function loginWithSEIS(event) {
       event.preventDefault();
+      
+      const cardNoInput = document.getElementById('perCardNo');
+      const cardNo = cardNoInput.value.trim();
+      
+      if (!cardNo) {
+        return showError('กรุณากรอกหมายเลขบัตรประชาชน');
+      }
+      
+      if (cardNo.length !== 13) {
+        return showError('หมายเลขบัตรประชาชนต้องมี 13 หลัก');
+      }
+      
+      if (!validateThaiID(cardNo)) {
+        return showError('หมายเลขบัตรประชาชนไม่ถูกต้อง');
+      }
       
       try {
         const response = await axios.post(
           '/api/seis-login',
-          {},
+          { PER_CARDNO: cardNo },
           {
             headers: {
               'Content-Type': 'application/json'
@@ -52,10 +130,26 @@
             <div class="form-control" style="height: 300px; overflow-y: auto;">
               <p>การกดปุ่ม "ลงชื่อเข้าใช้ด้วย SEIS" แสดงว่าคุณได้อ่านและยอมรับข้อกำหนดและเงื่อนไขเหล่านี้แล้ว</p>
               <ol>
-                <li>โปรแกรมนี้จะเก็บหมายเลขโทรศัพท์และ LINE ID ของคุณเพื่อใช้ในการอ้างอิง</li>
+                <li>โปรแกรมนี้จะเก็บหมายเลขบัตรประชาชน เบอร์โทรศัพท์ และ LINE ID ของคุณเพื่อใช้ในการอ้างอิง</li>
                 <li>เจ้าหน้าที่ของเราอาจติดต่อคุณผ่านโทรศัพท์หรือ LINE เพื่อขอข้อมูลเพิ่มเติม</li>
               </ol>
             </div>
+          </div>
+          
+          <div class="form-group mb-3">
+            <label for="perCardNo" class="form-label">หมายเลขบัตรประชาชน <span class="text-danger">*</span></label>
+            <input 
+              type="text" 
+              class="form-control" 
+              id="perCardNo" 
+              placeholder="กรอกหมายเลขบัตรประชาชน 13 หลัก" 
+              pattern="\d{13}"
+              maxlength="13"
+              inputmode="numeric"
+              oninput="handleIDInput(event)"
+              required>
+            <div id="idError" class="invalid-feedback" style="display: none;"></div>
+            <small class="form-text text-muted">กรุณากรอกหมายเลขบัตรประชาชน 13 หลัก โดยไม่ต้องเว้นวรรคหรือขีด</small>
           </div>
           
           <div class="d-flex">
