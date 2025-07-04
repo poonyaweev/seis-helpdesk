@@ -25,9 +25,20 @@ app.use(bodyParser.json());
 // SEIS API Proxy Endpoint
 app.post('/api/seis-login', async (req, res) => {
   try {
+    const { perCardNo } = req.body;
+    
+    if (!perCardNo) {
+      return res.status(400).json({ error: 'perCardNo is required' });
+    }
+    
+    // Validate Thai ID format (13 digits)
+    if (!/^\d{13}$/.test(perCardNo)) {
+      return res.status(400).json({ error: 'Invalid perCardNo format' });
+    }
+    
     const response = await axios.post(
       'https://seis1.ocsc.go.th/api/user_detail_login/login',
-      { PER_CARDNO: 1129900444776 },
+      { PER_CARDNO: perCardNo },
       {
         headers: {
           'Authorization': 'Bearer c_V112c~-122d88B119b@J*Q71Y121Z87E119M109M@Y122F106Z106E@N109M122Y106Y119M106Z106Z68Z104N122B109O68c$',

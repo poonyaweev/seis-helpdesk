@@ -71,31 +71,20 @@
     async function loginWithSEIS(event) {
       event.preventDefault();
       
-      const cardNoInput = document.getElementById('perCardNo');
-      const cardNo = cardNoInput.value.trim();
+      const perCardNo = document.getElementById('perCardNo').value.trim();
       
-      if (!cardNo) {
+      if (!perCardNo) {
         return showError('กรุณากรอกหมายเลขบัตรประชาชน');
       }
       
-      if (cardNo.length !== 13) {
-        return showError('หมายเลขบัตรประชาชนต้องมี 13 หลัก');
-      }
-      
-      if (!validateThaiID(cardNo)) {
-        return showError('หมายเลขบัตรประชาชนไม่ถูกต้อง');
+      // Validate Thai ID
+      if (!validateThaiID(perCardNo)) {
+        showError('หมายเลขบัตรประชาชนไม่ถูกต้อง');
+        return;
       }
       
       try {
-        const response = await axios.post(
-          '/api/seis-login',
-          { PER_CARDNO: cardNo },
-          {
-            headers: {
-              'Content-Type': 'application/json'
-            }
-          }
-        );
+        const response = await axios.post('/api/seis-login', { perCardNo });
         
         // Store the API response in sessionStorage
         const userData = response.data;
