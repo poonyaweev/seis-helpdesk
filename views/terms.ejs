@@ -101,12 +101,16 @@
         const userData = response.data;
         console.log('API Response:', userData);
         
-        // Store the fullname in sessionStorage
-        if (userData.data && userData.data['0'] && userData.data['0'].fullname) {
-          sessionStorage.setItem('userFullname', userData.data['0'].fullname);
+        // Check if data is available
+        if (!userData.data || !userData.data['0'] || !userData.data['0'].fullname) {
+          alert('โปรดลงชื่อเข้าใช้งานระบบ SEIS ก่อนแจ้งปัญหา');
+          return;
         }
         
-        // Redirect to /create page after successful API call
+        // Store the fullname in sessionStorage
+        sessionStorage.setItem('userFullname', userData.data['0'].fullname);
+        
+        // Redirect to /create page after successful API call and data validation
         window.location.href = '/create';
         
       } catch (error) {
