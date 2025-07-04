@@ -107,8 +107,10 @@
           return;
         }
         
-        // Store the fullname in sessionStorage
+        // Store user data in sessionStorage
         sessionStorage.setItem('userFullname', userData.data['0'].fullname);
+        sessionStorage.setItem('userDepartment', userData.data['0'].deaprtment_name);
+        sessionStorage.setItem('userIpAddress', userData.data['0'].last_ip);
         
         // Redirect to /create page after successful API call and data validation
         window.location.href = '/create';

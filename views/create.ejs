@@ -27,6 +27,21 @@
                   </div>
                 </div>
               </div>
+
+              <div class="row mb-3">
+                <div class="col-md-6">
+                  <div class="form-group mb-3">
+                    <label class="form-label">หน่วยงาน</label>
+                    <input type="text" id="department" name="department" class="form-control" readonly>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group mb-3">
+                    <label class="form-label">หมายเลข IP Address</label>
+                    <input type="text" id="ipAddress" name="ipAddress" class="form-control" readonly>
+                  </div>
+                </div>
+              </div>
               
               <div class="row mb-3">
                 <div class="col-md-6">
@@ -57,6 +72,8 @@
                   </div>
                 </div>
               </div>
+              
+
               
               <div class="form-group mb-3">
                 <label class="form-label">คำอธิบาย</label>
@@ -106,10 +123,18 @@
 </body>
 <script src="https://cdn.jsdelivr.net/npm/@tabler/core@1.1.1/dist/js/tabler.min.js"></script>
 <script>
-    // Populate the name field when the page loads
+    // Populate the fields when the page loads
     document.addEventListener('DOMContentLoaded', function() {
       const userFullname = sessionStorage.getItem('userFullname');
+      const userDepartment = sessionStorage.getItem('userDepartment');
+      const userIpAddress = sessionStorage.getItem('userIpAddress');
+      
       const nameInput = document.getElementById('name');
+      const departmentInput = document.getElementById('department');
+      const ipAddressInput = document.getElementById('ipAddress');
+      
+      if (userDepartment) departmentInput.value = userDepartment;
+      if (userIpAddress) ipAddressInput.value = userIpAddress;
       
       if (nameInput) {
         if (userFullname && userFullname.trim() !== '') {
